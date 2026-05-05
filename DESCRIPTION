@@ -1,16 +1,20 @@
 Package: rainbr
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Climate Data from INMET
 Version: 0.1.0
 Authors@R: c(
-    person(
-      "Jane", "Doe",
-      email = "jane@example.com",
-      role = c("aut", "cre")
-    )
+    person("Kaio", "Bárbara", email = "kaio.rb@hotmail.com", role = c("aut", "cre"))
   )
-Description: More about what it does (maybe more than one line).
-    Continuation lines should be indented.
-License: What license is it under?
+Description: Provides functions to download and import meteorological data 
+    from Brazil's National Institute of Meteorology (INMET, <https://portal.inmet.gov.br>). 
+    The package facilitates access to rainfall and other climate variables 
+    recorded across hundreds of automatic weather stations throughout Brazil,
+    covering the period from 2000 to the present.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 7.3.3
+Imports: glue
+Suggests:
+    data.table,
+    janitor
