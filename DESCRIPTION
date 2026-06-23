@@ -18,3 +18,8 @@ Imports: glue
 Suggests:
     data.table,
     janitor
+Depends: 
+    R (>= 3.5),
+    sf,
+    gstat,
+    dplyr
