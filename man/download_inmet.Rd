@@ -26,19 +26,19 @@ had expanded substantially.
 }
 \examples{
 \dontrun{
-  download_inmet(
-    years    = 2000,
-    unzip_to = "./"
-  )
-  rain_df <- data.table::fread(
-    "./2000/INMET_CO_DF_A001_BRASILIA_07-05-2000_A_31-12-2000.CSV",
-    skip = 7, encoding = "Latin-1"
-  ) |>
-    janitor::clean_names()
-  rain_df$temperatura_maxima_na_hora_ant_aut_c[
-    rain_df$temperatura_maxima_na_hora_ant_aut_c == -9999
-  ] <- NA
-  median(rain_df$temperatura_maxima_na_hora_ant_aut_c, na.rm = TRUE)
+
+## Download data from a single year
+download_inmet(
+  years    = 2000,
+  unzip_to = "./"
+)
+
+## Download data from multiples years
+download_inmet(
+  years    = 2008:2010,
+  unzip_to = "./"
+)
+
 }
 }
 
