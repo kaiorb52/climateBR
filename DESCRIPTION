@@ -1,6 +1,6 @@
 Package: climateBR
 Type: Package
-Title: Climate Data from INMET
+Title: Download Brazilian Rainfall, Temperature, and Wind Data
 Version: 0.1.0
 Authors@R: c(
     person("Kaio", "Bárbara", email = "kaio.rb@hotmail.com", role = c("aut", "cre"))
@@ -9,17 +9,27 @@ Description: Provides functions to download and import meteorological data
     from Brazil's National Institute of Meteorology (INMET, <https://portal.inmet.gov.br>). 
     The package facilitates access to rainfall and other climate variables 
     recorded across hundreds of automatic weather stations throughout Brazil,
-    covering the period from 2000 to the present.
+    covering the period from 2000 onwards.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+LazyDataCompression: xz
 RoxygenNote: 7.3.3
-Imports: glue
+Imports: 
+  glue,
+  arrow,
+  dplyr,
+  tidyr,
+  janitor,
+  data.table
 Suggests:
-    data.table,
-    janitor
-Depends: 
+    knitr,
+    rmarkdown,
+    ggplot2,
+    patchwork,
+    geobr
+Depends:
     R (>= 3.5),
     sf,
-    gstat,
-    dplyr
+    gstat
+VignetteBuilder: knitr
