@@ -69,4 +69,3 @@ floods_rs <- lista_df |>
   select(id_who = codigo_wmo, lat = latitude, long = longitude, total_rainfall)
 
 save(floods_rs, file = "data/floods_rs.rda")
-load("data/floods_rs.rda")
