@@ -1,0 +1,54 @@
+---
+title: "getting-started"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{getting-started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+This vignette demonstrates the typical workflow for working with INMET data using **climateBR**.
+
+The workflow consists of three steps:
+
+1. Download the raw data.
+2. Build a partitioned Arrow dataset.
+3. Read and analyze the processed dataset.
+
+## Download data
+
+```{r eval=FALSE}
+download_inmet(
+  years = 2000:2005,
+  unzip_to = "~/Downloads/inmet"
+)
+```
+
+## Build the dataset
+
+```{r eval=FALSE}
+build_inmet_dataset(
+  input = "~/Downloads/inmet",
+  output = "~/inmet"
+)
+```
+
+## Read the dataset
+
+```{r eval=FALSE}
+rainfall <- read_inmet(
+  path = "~/inmet",
+  years = 2000,
+  collect = FALSE
+)
+```
+
