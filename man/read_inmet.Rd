@@ -11,6 +11,8 @@ read_inmet(
 )
 }
 \arguments{
+\item{path}{path of the INMET CSVs files.}
+
 \item{years}{Years to read.}
 
 \item{stations}{WMO station codes.}

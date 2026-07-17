@@ -85,9 +85,8 @@ the target locations.
 
 ```{r, warning = FALSE, message = FALSE}
 krig_result <- kriging_inmet(
-  inmet_df     = floods_rs,
-  stations_geo = rain_sf,
-  mun_geo      = mun_grid_sf
+  stations_df = rain_sf,
+  mun_geo     = mun_grid_sf
 )
 ```
 

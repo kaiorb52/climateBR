@@ -3,22 +3,18 @@
 \title{Perform Ordinary Kriging for INMET Meteorological Data}
 \usage{
 kriging_inmet(
-  inmet_df,
-  stations_geo,
+  stations_df,
   mun_geo,
   var = "total_rainfall"
 )
 }
 \arguments{
-  \item{inmet_df}{
-    A \code{data.frame} containing observations from weather stations.
-    Must include a numeric column corresponding to the variable specified
-    in \code{var}.
-  }
 
-  \item{stations_geo}{
-    An \code{sf} object containing the geographic locations of weather
-    stations. Must include the variable specified in \code{var}.
+  \item{stations_df}{
+    A \code{data.frame} containing observations from weather stations.
+    Must include a numeric column corresponding to the variable specified and the 
+    geographic locations of weather stations.
+    in \code{var}.
   }
 
   \item{mun_geo}{
@@ -49,8 +45,7 @@ units.
 \examples{
 \dontrun{
 krig_result <- kriging_inmet(
-  inmet_df = inmet_data,
-  stations_geo = stations_sf,
+  stations_df = inmet_data,
   mun_geo = municipalities_sf,
   var = "total_rainfall"
 )
