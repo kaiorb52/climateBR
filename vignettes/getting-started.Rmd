@@ -24,7 +24,11 @@ The workflow consists of three steps:
 2. Build a partitioned Arrow dataset.
 3. Read and analyze the processed dataset.
 
+For most applications, we recommend using data from **2008 onwards**, as the INMET network became substantially more complete from this period. Earlier years are available, but the number of operating weather stations is considerably smaller, which may affect spatial coverage and analyses.
+
 ## Download data
+
+The first step is downloading the original files published by INMET.
 
 ```{r eval=FALSE}
 download_inmet(
@@ -35,6 +39,8 @@ download_inmet(
 
 ## Build the dataset
 
+Once the files have been downloaded, they can be converted into a partitioned Arrow dataset. This only needs to be done once and allows much faster access for subsequent analyses.
+
 ```{r eval=FALSE}
 build_inmet_dataset(
   input = "~/Downloads/inmet",
@@ -44,6 +50,10 @@ build_inmet_dataset(
 
 ## Read the dataset
 
+The `read_inmet()` function reads the partitioned dataset and can return either an Arrow Dataset (`collect = FALSE`) or an in-memory data frame (`collect = TRUE`).
+
+Keeping `collect = FALSE` is generally recommended when working with large time spans, as the full INMET database contains millions of observations. Loading all records into memory with `collect = TRUE` may exceed the available RAM and cause R or the operating system to become unresponsive.
+
 ```{r eval=FALSE}
 rainfall <- read_inmet(
   path = "~/inmet",
@@ -52,3 +62,4 @@ rainfall <- read_inmet(
 )
 ```
 
+Depending on the selected years, it is also good practice to inspect and clean the observations before analysis. In some historical INMET files, missing values are encoded as `-9999` instead of `NA`, so these values should be converted to proper missing values before computing summaries or fitting statistical models.
