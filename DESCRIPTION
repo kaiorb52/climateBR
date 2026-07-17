@@ -30,3 +30,5 @@ Depends:
     sf,
     gstat
 VignetteBuilder: knitr
+URL: https://github.com/kaiorb52/climateBR
+BugReports: https://github.com/kaiorb52/climateBR/issues
