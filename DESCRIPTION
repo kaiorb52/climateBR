@@ -6,7 +6,7 @@ Authors@R: c(
     person("Kaio", "Bárbara", email = "kaio.rb@hotmail.com", role = c("aut", "cre", "cph"))
   )
 Description: Provides functions to download and import meteorological data 
-    from Brazil's National Institute of Meteorology (INMET, <https://portal.inmet.gov.br>).
+    from Brazil's National Institute of Meteorology.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -27,6 +27,7 @@ Suggests:
     geobr
 Depends:
     R (>= 4.1.0),
+    rlang,
     sf,
     gstat
 VignetteBuilder: knitr

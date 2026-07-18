@@ -39,6 +39,8 @@
 #' )
 #'
 #' }
+#' 
+#' @importFrom rlang .data
 #'
 #' @export
 
@@ -64,7 +66,7 @@ build_inmet_dataset <- function(input, output) {
         values_from = 2
       ) |>
       janitor::clean_names() |>
-      dplyr::select(codigo_wmo)
+      dplyr::select(.data$codigo_wmo)
     
     df <-
       data.table::fread(

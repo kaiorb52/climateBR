@@ -56,6 +56,7 @@
 #' @seealso
 #' [download_inmet()], [build_inmet_dataset()]
 #'
+#' @importFrom rlang .data
 #' @export
 
 read_inmet <- function(
@@ -71,13 +72,13 @@ read_inmet <- function(
   if (!is.null(years))
     ds <- dplyr::filter(
       ds,
-      ano %in% years
+      .data$ano %in% years
     )
   
   if (!is.null(stations))
     ds <- dplyr::filter(
       ds,
-      codigo_wmo %in% stations
+      .data$codigo_wmo %in% stations
     )
   
   if (!is.null(variables))
