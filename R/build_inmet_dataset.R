@@ -57,8 +57,6 @@ build_inmet_dataset <- function(input, output) {
   
   for (x in files) {
     
-    message(basename(x))
-    
     meta <-
       data.table::fread(x, nrows = 6) |>
       tidyr::pivot_wider(
