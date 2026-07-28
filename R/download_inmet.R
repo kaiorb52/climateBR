@@ -31,7 +31,7 @@
 #' [build_inmet_dataset()], [read_inmet()]
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'
 #' ## Download a single year
 #' download_inmet(
@@ -51,17 +51,14 @@
 #' @importFrom utils download.file unzip
 #' @export
 
-download_inmet <- function(years = 2008, unzip_to = getwd()){
+download_inmet <- function(years = 2008, unzip_to = tempdir()){
 
-  options(timeout = Inf)
+  old_options <- options(timeout = Inf)
+  on.exit(options(old_options), add = TRUE)
+  
   check_dir(path = unzip_to)
 
   for (x in years){
-
-    if (!x %in% years){
-      print(glue("Data not avaliable for {x} year."))
-      next
-    }
 
     url_year <- glue("https://portal.inmet.gov.br/uploads/dadoshistoricos/{x}.zip")
     unzip_complete <- glue("{unzip_to}/{x}/")
@@ -75,8 +72,6 @@ download_inmet <- function(years = 2008, unzip_to = getwd()){
       }
 
     }
-
-    message("Download From:\n", url_year)
 
     download.file(
       url      = url_year,

@@ -36,7 +36,7 @@
 #' [gstat::fit.variogram()]
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' krig_result <- kriging_inmet(
 #'   stations_df = inmet_data,
 #'   mun_geo = municipalities_sf,

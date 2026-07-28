@@ -31,9 +31,13 @@ For most applications, we recommend using data from **2008 onwards**, as the INM
 The first step is downloading the original files published by INMET.
 
 ```{r eval=FALSE}
+
+raw_dir <- file.path(tempdir(), "inmet_raw")
+dataset_dir <- file.path(tempdir(), "inmet_arrow")
+
 download_inmet(
   years = 2000:2005,
-  unzip_to = "~/Downloads/inmet"
+  unzip_to = raw_dir
 )
 ```
 
@@ -43,8 +47,8 @@ Once the files have been downloaded, they can be converted into a partitioned Ar
 
 ```{r eval=FALSE}
 build_inmet_dataset(
-  input = "~/Downloads/inmet",
-  output = "~/inmet"
+  input = raw_dir,
+  output = dataset_dir
 )
 ```
 
@@ -56,7 +60,7 @@ Keeping `collect = FALSE` is generally recommended when working with large time 
 
 ```{r eval=FALSE}
 rainfall <- read_inmet(
-  path = "~/inmet",
+  path = dataset_dir,
   years = 2000,
   collect = FALSE
 )

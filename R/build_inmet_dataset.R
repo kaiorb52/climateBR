@@ -31,7 +31,7 @@
 #' [download_inmet()], [read_inmet()]
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'
 #' build_inmet_dataset(
 #'   input = "~/Downloads/inmet",

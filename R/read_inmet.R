@@ -32,7 +32,7 @@
 #' selected observations.
 #' 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'
 #' ## Read a single year without loading the data into memory
 #' rainfall_df1 <- read_inmet(
