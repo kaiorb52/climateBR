@@ -96,11 +96,14 @@ build_inmet_dataset <- function(input, output) {
       ) |>
       dplyr::mutate(
         ano = ano
+      ) |> 
+      dplyr::select(
+        c(any_of("ano", "codigo_who"), dplyr::everything())
       )
-    
+
     if ("data" %in% names(df))
       names(df)[names(df) == "data"] <- "data_yyyy_mm_dd"
-    
+
     arrow::write_dataset(
       df,
       output,
