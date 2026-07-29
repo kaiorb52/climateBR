@@ -75,6 +75,7 @@ mun_centroid <- mun_24 |>
 mun_grid_sf <- mun_centroid |>
   st_as_sf() |>
   st_transform(crs = 29193)
+
 ```
 
 # Running the Kriging Model

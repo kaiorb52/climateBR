@@ -41,14 +41,21 @@ coordinate reference system (CRS). Using geographic coordinates
 calculations are performed in map units.
 }
 \examples{
+# Requires spatial data (e.g., municipal boundaries) together with
+# INMET stations observations. The example dataset `floods_rs`
+# illustrates the required input format for the `stations_df` parameter. 
+# See the vignette "Spatial Interpolation Using Ordinary Kriging" 
+# for the complete workflow of this function.
+
 \dontrun{
-krig_result <- kriging_inmet(
+
+krig_df <- kriging_inmet(
   stations_df = inmet_data,
   mun_geo = municipalities_sf,
   var = "total_rainfall"
 )
 
-head(krig_result)
+head(krig_df)
 }
 
 }

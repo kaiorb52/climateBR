@@ -1,8 +1,8 @@
 ---
-title: "getting-started"
+title: "Downloading meteorological data from Brazil with climateBR"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{getting-started}
+  %\VignetteIndexEntry{Downloading meteorological data from Brazil with climateBR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -56,7 +56,7 @@ build_inmet_dataset(
 
 The `read_inmet()` function reads the partitioned dataset and can return either an Arrow Dataset (`collect = FALSE`) or an in-memory data frame (`collect = TRUE`).
 
-Keeping `collect = FALSE` is generally recommended when working with large time spans, as the full INMET database contains millions of observations. Loading all records into memory with `collect = TRUE` may exceed the available RAM and cause R or the operating system to become unresponsive.
+Keeping `collect = FALSE` is generally recommended when working with large time spans, as the full INMET database contains millions of observations. Loading all records into memory with `collect = TRUE` may exceed the available RAM and cause R to explode.
 
 ```{r eval=FALSE}
 rainfall <- read_inmet(
@@ -66,4 +66,4 @@ rainfall <- read_inmet(
 )
 ```
 
-Depending on the selected years, it is also good practice to inspect and clean the observations before analysis. In some historical INMET files, missing values are encoded as `-9999` instead of `NA`, so these values should be converted to proper missing values before computing summaries or fitting statistical models.
+Depending on the selected years, it is also good practice to inspect and clean the observations before analysis. In some historical INMET files, missing values are encoded as `-9999` instead of `NA`, so these values should be converted to proper missing values before computing summaries or running models.

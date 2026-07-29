@@ -38,11 +38,11 @@ station (`codigo_wmo`), allowing Arrow to read only the files
 required by a query.
 }
 \examples{
-\dontrun{
+\donttest{
 
 build_inmet_dataset(
-  input = "~/Downloads/inmet",
-  output = "~/data/inmet"
+  input = file.path(tempdir(), "inmet_raw"),
+  output = file.path(tempdir(), "inmet_arrow")
 )
 
 }

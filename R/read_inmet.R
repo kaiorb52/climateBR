@@ -32,25 +32,29 @@
 #' selected observations.
 #' 
 #' @examples
-#' \donttest{
-#'
+#' # Requires INMET data downloaded with download_inmet() and
+#' # processed into an Arrow dataset with build_inmet_dataset().
+#' # See the vignette "Downloading meteorological data from Brazil with climateBR".
+#' # for the complete workflow of this function.
+#' 
+#' \dontrun{
+#' 
 #' ## Read a single year without loading the data into memory
 #' rainfall_df1 <- read_inmet(
-#'   path = "~/inmet",
-#'   years = 2008,
+#'   path = dataset_dir,
+#'   years = 2000,
 #'   collect = FALSE
 #' )
 #'
 #' ## Read multiple years and collect the results into memory
 #' rainfall_df2 <- read_inmet(
-#'   path = "~/inmet",
-#'   years = 2008:2012,
+#'   path = dataset_dir,
+#'   years = 2000:2005,
 #'   collect = TRUE
 #' )
 #'
-#' ## For large datasets, keeping `collect = FALSE` is generally
+#' ## For large datasets, keeping collect = FALSE is generally
 #' ## recommended to avoid excessive memory usage.
-#'
 #' }
 #'  
 #' @seealso

@@ -34,8 +34,8 @@
 #' \donttest{
 #'
 #' build_inmet_dataset(
-#'   input = "~/Downloads/inmet",
-#'   output = "~/data/inmet"
+#'   input = file.path(tempdir(), "inmet_raw"),
+#'   output = file.path(tempdir(), "inmet_arrow")
 #' )
 #'
 #' }
@@ -96,9 +96,6 @@ build_inmet_dataset <- function(input, output) {
       ) |>
       dplyr::mutate(
         ano = ano
-      ) |> 
-      dplyr::select(
-        c(any_of("ano", "codigo_who"), dplyr::everything())
       )
 
     if ("data" %in% names(df))

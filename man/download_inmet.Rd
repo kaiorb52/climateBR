@@ -4,7 +4,7 @@
 \alias{download_inmet}
 \title{Download historical meteorological data from INMET}
 \usage{
-download_inmet(years = 2008, unzip_to = getwd())
+download_inmet(years = 2008, unzip_to = tempdir())
 }
 \arguments{
 \item{years}{Integer vector specifying the years to download.
@@ -37,17 +37,17 @@ The downloaded files can subsequently be processed with
 [build_inmet_dataset()].
 }
 \examples{
-\dontrun{
+\donttest{
 
 ## Download a single year
 download_inmet(
-  years = 2008,
+  years = 2000,
   unzip_to = tempdir()
 )
 
 ## Download multiple years
 download_inmet(
-  years = 2008:2012,
+  years = 2004:2006,
   unzip_to = tempdir()
 )
 

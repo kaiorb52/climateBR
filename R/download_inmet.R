@@ -35,13 +35,13 @@
 #'
 #' ## Download a single year
 #' download_inmet(
-#'   years = 2008,
+#'   years = 2000,
 #'   unzip_to = tempdir()
 #' )
 #'
 #' ## Download multiple years
 #' download_inmet(
-#'   years = 2008:2012,
+#'   years = 2004:2006,
 #'   unzip_to = tempdir()
 #' )
 #'
@@ -53,7 +53,7 @@
 
 download_inmet <- function(years = 2008, unzip_to = tempdir()){
 
-  old_options <- options(timeout = Inf)
+  old_options <- options(timeout = max(getOption("timeout"), 600))
   on.exit(options(old_options), add = TRUE)
   
   check_dir(path = unzip_to)
@@ -72,12 +72,29 @@ download_inmet <- function(years = 2008, unzip_to = tempdir()){
       }
 
     }
-
-    download.file(
-      url      = url_year,
-      destfile = temp_path
+    
+    status <- tryCatch(
+      {
+        download.file(
+          url = url_year,
+          destfile = temp_path,
+          quiet = TRUE
+        )
+        TRUE
+      },
+      error = function(e) {
+        warning(
+          sprintf("Failed to download data for %s.", x),
+          call. = FALSE
+        )
+        FALSE
+      }
     )
-
+    
+    if (!status) {
+      next
+    }
+    
     unzip(
       zipfile = temp_path,
       exdir   = unzip_complete,
