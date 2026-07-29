@@ -6,7 +6,7 @@
 
 ## Fixes
 
-Based on the previous review, I tried to addressed all requested changes, as detailed below.
+Based on the previous review, I tried to address all the requested changes, as detailed below.
 
 ### Comment 1
 > Please provide a link to the used webservices to the description field
