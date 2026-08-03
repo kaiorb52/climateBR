@@ -57,8 +57,7 @@ build_inmet_dataset <- function(input, output) {
   
   for (x in files) {
     
-    meta <-
-      data.table::fread(x, nrows = 6) |>
+    meta <- data.table::fread(x, nrows = 6) |>
       tidyr::pivot_wider(
         names_from = 1,
         values_from = 2
@@ -66,8 +65,7 @@ build_inmet_dataset <- function(input, output) {
       janitor::clean_names() |>
       dplyr::select(.data$codigo_wmo)
     
-    df <-
-      data.table::fread(
+    df <- data.table::fread(
         x,
         skip = 7,
         sep = ";",
@@ -75,8 +73,7 @@ build_inmet_dataset <- function(input, output) {
       ) |>
       janitor::clean_names()
     
-    df[3:19] <-
-      lapply(
+    df[3:19] <- lapply(
         df[3:19],
         \(z)
         as.numeric(
@@ -84,13 +81,11 @@ build_inmet_dataset <- function(input, output) {
         )
       )
     
-    ano <-
-      as.integer(
+    ano <- as.integer(
         basename(dirname(x))
       )
     
-    df <-
-      dplyr::cross_join(
+    df <- dplyr::cross_join(
         meta,
         df
       ) |>
@@ -100,11 +95,14 @@ build_inmet_dataset <- function(input, output) {
 
     if ("data" %in% names(df))
       names(df)[names(df) == "data"] <- "data_yyyy_mm_dd"
+      df$data_yyyy_mm_dd <- as.Date(
+        gsub("/", "-", df$data_yyyy_mm_dd)
+      )
 
     arrow::write_dataset(
       df,
       output,
-      partitioning = c("ano","codigo_wmo"),
+      partitioning = c("ano", "codigo_wmo"),
       existing_data_behavior = "overwrite"
     ) 
   }
