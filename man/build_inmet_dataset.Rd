@@ -4,7 +4,12 @@
 \alias{build_inmet_dataset}
 \title{Build a partitioned Arrow dataset from INMET CSV files}
 \usage{
-build_inmet_dataset(input, output)
+build_inmet_dataset(
+  input,
+  output,
+  years = 2000:2026,
+  partitioning_by = c("ano", "codigo_wmo")
+)
 }
 \arguments{
 \item{input}{Character. Directory containing the raw CSV files
@@ -12,6 +17,12 @@ downloaded with [download_inmet()].}
 
 \item{output}{Character. Directory where the partitioned
 Arrow/Parquet dataset will be written.}
+
+\item{years}{Vector. Group of years of the INMET database located in `input`
+to be transformed into an Arrow/Parquet dataset.}
+
+\item{partitioning_by}{Vector. Variable(s) in the INMET database used to
+create the parquet folders.}
 }
 \value{
 Invisibly returns the output directory.

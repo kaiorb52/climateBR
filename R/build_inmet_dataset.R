@@ -13,6 +13,10 @@
 #'   downloaded with [download_inmet()].
 #' @param output Character. Directory where the partitioned
 #'   Arrow/Parquet dataset will be written.
+#' @param years Vector. Group of years of the INMET database located in `input`
+#'   to be transformed into an Arrow/Parquet dataset.
+#' @param partitioning_by Vector. Variable(s) in the INMET database used to
+#'   create the parquet folders.
 #'
 #' @details
 #' This function only needs to be executed once for a collection of
@@ -44,7 +48,7 @@
 #'
 #' @export
 
-build_inmet_dataset <- function(input, output) {
+build_inmet_dataset <- function(input, output, years = 2000:2026, partitioning_by = c("ano", "codigo_wmo")) {
   
   dir.create(output, recursive = TRUE, showWarnings = FALSE)
   
@@ -54,6 +58,8 @@ build_inmet_dataset <- function(input, output) {
     full.names = TRUE,
     pattern = "\\.CSV$"
   )
+  
+  files <- files[basename(dirname(files)) %in% as.character(years)]
   
   for (x in files) {
     
@@ -81,31 +87,43 @@ build_inmet_dataset <- function(input, output) {
         )
       )
     
+    if ("data" %in% names(df))
+      names(df)[names(df) == "data"] <- "data_yyyy_mm_dd"
+      df$data_yyyy_mm_dd <- as.Date(
+      gsub("/", "-", df$data_yyyy_mm_dd)
+    )
+
+    df <- df |>
+      dplyr::select(-dplyr::matches("^v\\d+$"))
+      
     ano <- as.integer(
         basename(dirname(x))
       )
+    
+    mes <- as.integer(
+      format(df$data_yyyy_mm_dd, "%m")
+    )
     
     df <- dplyr::cross_join(
         meta,
         df
       ) |>
       dplyr::mutate(
-        ano = ano
-      )
-
-    if ("data" %in% names(df))
-      names(df)[names(df) == "data"] <- "data_yyyy_mm_dd"
-      df$data_yyyy_mm_dd <- as.Date(
-        gsub("/", "-", df$data_yyyy_mm_dd)
+        ano = ano,
+        mes = mes
+      ) |>
+      dplyr::relocate(
+        .data$ano, .data$mes, .data$codigo_wmo,
+        .before = 1
       )
 
     arrow::write_dataset(
       df,
       output,
-      partitioning = c("ano", "codigo_wmo"),
+      partitioning = partitioning_by,
       existing_data_behavior = "overwrite"
     ) 
+    rm(df)
   }
-  
   invisible(output)
 }
