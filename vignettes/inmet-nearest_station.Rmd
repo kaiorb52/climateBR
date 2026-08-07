@@ -1,0 +1,170 @@
+---
+title: "Finding the Closest INMET Station for Each Municipality"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Finding the Closest INMET Station for Each Municipality}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(climateBR)
+library(dplyr)
+library(ggplot2)
+library(sf)
+```
+
+# Introduction
+
+Many climate analyses require assigning each municipality to its closest meteorological station. The `nearest_stations()` function automates this process by identifying the nearest INMET station for every municipality.
+
+This vignette demonstrates how to:
+
+- select municipalities and INMET stations for a state;
+- identify the nearest station for each municipality;
+- visualize the spatial distribution of assigned stations; and
+- inspect the municipality–station connections.
+
+# Preparing the data
+
+The package includes datasets with Brazilian municipalities and INMET weather stations.
+
+```{r}
+data("municipality")
+data("inmet_stations")
+
+municipality_pe <- municipality |>
+  filter(
+    state == "PE",
+    code_ibge7 != "2605459" # Fernando de Noronha
+  )
+
+inmet_stations_pe <- inmet_stations |>
+  filter(state == "PE")
+```
+
+# Finding the nearest station
+
+Use `nearest_stations()` to identify the closest station for each municipality.
+
+```{r}
+mun_stations_pe <- nearest_stations(
+  municipality = municipality_pe,
+  inmet_stations = inmet_stations_pe,
+  n = 1
+)
+
+head(mun_stations_pe)
+```
+
+# Municipality–station connections
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
+tmp <- tempfile(fileext = ".rda")
+on.exit(unlink(tmp), add = TRUE)
+
+download.file(
+  "https://github.com/kaiorb52/dados_municipais/raw/main/mun_24.rda",
+  destfile = tmp,
+  mode = "wb"
+)
+
+load(tmp)
+
+mun_24_pe <- mun_24 |>
+  filter(abbrev_state == "PE") |>
+  select(code_muni, geom)
+
+mun_stations_pe2 <- mun_24_pe |>
+  left_join(
+    mun_stations_pe,
+    by = c("code_muni" = "code_ibge7")
+  )
+```
+
+```{r fig.width=7, fig.height=6, echo=FALSE, warning = FALSE, message = FALSE}
+
+ggplot() +
+  geom_sf(
+    data = mun_stations_pe2,
+    aes(fill = code_wmo),
+  ) +
+  coord_sf(
+    xlim = c(-41.25, -35),
+    ylim = c(-10, -6.5)
+  ) +
+  theme_void() +
+  guides(fill = "none")
+
+```
+
+```{r, echo=FALSE, warning = FALSE, message = FALSE}
+distance_lines <- mun_stations_pe |>
+  left_join(
+    inmet_stations_pe |>
+      select(
+        code_wmo,
+        station_lat = lat,
+        station_lon = lon
+      ),
+    by = "code_wmo"
+  ) |>
+  left_join(
+    municipality_pe |>
+      select(
+        code_ibge7,
+        mun_lat = lat,
+        mun_lon = lon
+      ),
+    by = "code_ibge7"
+  ) |>
+  rowwise() |>
+  mutate(
+    geometry = st_sfc(
+      st_linestring(
+        matrix(
+          c(
+            mun_lon, mun_lat,
+            station_lon, station_lat
+          ),
+          ncol = 2,
+          byrow = TRUE
+        )
+      ),
+      crs = 4326
+    )
+  ) |>
+  st_as_sf()
+```
+
+```{r fig.width=7, fig.height=6, echo=FALSE, warning = FALSE, message = FALSE}
+
+ggplot() +
+  geom_sf(data = mun_24_pe, fill = "grey95") +
+  geom_sf(data = distance_lines, linewidth = 0.2) +
+  geom_point(
+    data = municipality_pe,
+    aes(lon, lat),
+    shape = 3,
+    size = 0.8
+  ) +
+  geom_point(
+    data = inmet_stations_pe,
+    aes(lon, lat),
+    shape = 23,
+    fill = "red",
+    size = 3.5
+  ) +
+  coord_sf(
+    xlim = c(-41.25, -35),
+    ylim = c(-10, -6.5)
+  ) +
+  theme_void()
+
+```
+

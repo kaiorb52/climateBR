@@ -3,6 +3,7 @@
 export(build_inmet_dataset)
 export(download_inmet)
 export(kriging_inmet)
+export(nearest_stations)
 export(read_inmet)
 import(glue)
 import(gstat)

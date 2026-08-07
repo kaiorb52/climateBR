@@ -19,7 +19,10 @@ Imports:
   dplyr,
   tidyr,
   janitor,
-  data.table
+  data.table,
+  pracma, 
+  purrr, 
+  tibble
 Suggests:
     knitr,
     rmarkdown,
