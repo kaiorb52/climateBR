@@ -63,6 +63,8 @@ build_inmet_dataset <- function(input, output, years = 2000:2026, partitioning_b
   
   for (x in files) {
     
+    tryCatch({
+      
     meta <- data.table::fread(x, nrows = 6) |>
       tidyr::pivot_wider(
         names_from = 1,
@@ -71,14 +73,17 @@ build_inmet_dataset <- function(input, output, years = 2000:2026, partitioning_b
       janitor::clean_names() |>
       dplyr::select(.data$codigo_wmo)
     
+    txt <- readLines(x, n = 20, encoding = "UTF-8")
+    header <- grep("^data|^DATA", txt)
+    
     df <- data.table::fread(
         x,
-        skip = 7,
+        skip = header,
         sep = ";",
         encoding = "Latin-1"
       ) |>
       janitor::clean_names()
-    
+
     df[3:19] <- lapply(
         df[3:19],
         \(z)
@@ -124,6 +129,12 @@ build_inmet_dataset <- function(input, output, years = 2000:2026, partitioning_b
       existing_data_behavior = "overwrite"
     ) 
     rm(df)
+    invisible(output)
+
+    }, error = function(e) {
+      
+      # TO-DO ERROR MESSAGE
+      
+  })
   }
-  invisible(output)
 }
