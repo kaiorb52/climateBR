@@ -13,7 +13,7 @@ mun_24 <- geobr::read_municipality(year = 2024)
 
 codigos2 <- codigos |> 
   select(
-    state      = sigla_uf,
+    state_muni = sigla_uf,
     code_ibge7 = id_municipio, 
     code_ibge6 = id_municipio_6, 
     code_tse   = id_municipio_tse
@@ -38,4 +38,7 @@ municipality <- codigos2 |>
 #############################################################################
 #############################################################################
 
-save(municipality, file = "data/municipality.rda")
+usethis::use_data(
+  municipality,
+  overwrite = TRUE
+)

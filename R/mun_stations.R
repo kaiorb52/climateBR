@@ -10,6 +10,7 @@
 #'
 #' @format A tibble with 27,850 rows and 4 variables:
 #' \describe{
+#'   \item{state_muni}{Brazilian state abbreviation.}
 #'   \item{code_ibge7}{Seven-digit IBGE municipality code.}
 #'   \item{code_wmo}{World Meteorological Organization (WMO) identifier of the
 #'   INMET weather station.}

@@ -10,7 +10,7 @@
 #'
 #' @format A data frame with 700 rows and 6 variables:
 #' \describe{
-#'   \item{state}{Brazilian state abbreviation.}
+#'   \item{state_station}{Brazilian state abbreviation.}
 #'   \item{code_wmo}{WMO station identifier.}
 #'   \item{lat}{Station Latitude in decimal degrees (WGS84).}
 #'   \item{lon}{Station Longitude in decimal degrees (WGS84).}

@@ -12,10 +12,12 @@
 #' @return
 #' A tibble with the columns:
 #' \describe{
+#'   \item{state_muni}{Brazilian state abbreviation.}
 #'   \item{code_ibge7}{Municipality code.}
 #'   \item{code_wmo}{INMET station code.}
 #'   \item{distance}{Distance (in meters) between the municipality and station.}
-#'   \item{station_order}{}
+#'   \item{station_order}{Rank of the station by distance, where 1 indicates the nearest
+#'   station.}
 #' }
 #'
 #' @export
@@ -35,8 +37,9 @@ nearest_stations <- function(
   
   municipality |>
     dplyr::transmute(
+      state_muni = .data$state_muni,
       code_ibge7 = .data$code_ibge7,
-      mun_coord = purrr::map2(.data$lat, .data$lon, c)
+      mun_coord  = purrr::map2(.data$lat, .data$lon, c)
     ) |>
     dplyr::mutate(
       distances = purrr::map(

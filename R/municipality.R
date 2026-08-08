@@ -2,7 +2,7 @@
 #'
 #' @format A data frame with the following variables:
 #' \describe{
-#'   \item{state}{Brazilian state abbreviation.}
+#'   \item{state_muni}{Brazilian state abbreviation.}
 #'   \item{code_ibge7}{Seven-digit IBGE municipality code.}
 #'   \item{code_ibge6}{Six-digit IBGE municipality code.}
 #'   \item{code_tse}{Six-digit IBGE municipality code.}

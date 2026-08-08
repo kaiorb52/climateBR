@@ -28,11 +28,9 @@ for (x in 2000:2026){
 df_final <- lista_df |> 
   bind_rows()
 
-df_final <- readRDS("/home/kaio/inmet_stations_raw.rds")
-
 inmet_stations <- df_final |> 
   select(
-    state   = uf, 
+    state_station   = uf, 
     code_wmo = codigo_wmo,
     lat     = latitude, 
     lon    = longitude, 
@@ -48,7 +46,11 @@ inmet_stations <- df_final |>
     last_used_year = max(ano), 
     last_used_year = ifelse(last_used_year == 2026, NA, last_used_year)
   ) |> 
-  distinct(state, code_wmo, .keep_all = TRUE) |> 
+  distinct(state_station, code_wmo, .keep_all = TRUE) |> 
   select(-ano)
 
-save(inmet_stations, file = "data/inmet_stations.rda")
+usethis::use_data(
+  inmet_stations,
+  overwrite = TRUE
+)
+
