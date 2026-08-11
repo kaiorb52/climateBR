@@ -44,10 +44,9 @@ df_inmet <- read_inmet(path = "data/processed/inmet")
 
 The package also provides datasets containing information on the nearest INMET stations to each municipality in Brazil.
 
-The `mun_stations` dataset was created using the `nearest_stations()` function and contains the five nearest stations for each municipality.
-
 ``` r
 data("mun_stations")
+# The `mun_stations` dataset was created using the `nearest_stations()` function and contains the five nearest stations for each municipality.
 
 temp_rj <- df_inmet |> 
   group_by(ano, mes, codigo_wmo) |> 
@@ -144,3 +143,20 @@ ggplot() +
 ## License
 
 This project is licensed under the MIT License.
+
+## Citation
+
+To cite package ‘climateBR’ in publications use:
+
+-   Bárbara K (2026). *climateBR: Download Rainfall, Temperature, and Wind Data from Brazil*. R package version 0.1.0, <https://CRAN.R-project.org/package=climateBR>.
+
+```         
+
+@Manual{,
+  title = {climateBR: Download Rainfall, Temperature, and Wind Data from Brazil},
+  author = {Kaio Bárbara},
+  year = {2026},
+  note = {R package version 0.1.0},
+  url = {https://CRAN.R-project.org/package=climateBR},
+}
+```
