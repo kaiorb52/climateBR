@@ -133,7 +133,8 @@ ggplot() +
   labs(fill = "Max. Temp (Cº)") +
   theme_void() +
   theme(
-    legend.position = c(0.785, 0.185)
+    legend.position = c(0.785, 0.185),
+    plot.background = element_rect(fill = "white")
   )
   
 ```

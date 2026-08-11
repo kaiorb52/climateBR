@@ -42,8 +42,7 @@ boxplot_temp_rj <- temp_rj |>
 ggsave(plot = boxplot_temp_rj, filename = "man/figures/boxplot_temp_rj.png", height = 7, width = 10)
 
 ###########################
-
-mun_24 <- geobr::read_municipality()
+mun_24 <- geobr::read_municipality(year = 2024)
 
 mun_rj <- mun_24 |> 
   filter(abbrev_state == "RJ") |> 
@@ -68,7 +67,8 @@ map_temp_rj <- ggplot() +
   labs(fill = "Max. Temp (Cº)") +
   theme_void() +
   theme(
-    legend.position = c(0.785, 0.185)
+    legend.position = c(0.785, 0.185),
+    plot.background = element_rect(fill = "white")
   )
 
 ggsave(plot = map_temp_rj, filename = "man/figures/map_temp_rj.png", height = 7, width = 10)
