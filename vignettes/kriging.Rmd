@@ -147,8 +147,8 @@ mun_floods <- floods_rs |>
 p2 <- mun_24 |>
   left_join(
     mun_floods |>
-      select(code_muni, total_rainfall),
-    by = "code_muni"
+      select(code_ibge7, total_rainfall),
+    by = c("code_muni" = "code_ibge7")
   ) |>
   ggplot() +
   geom_sf(aes(fill = total_rainfall), color = NA) +
