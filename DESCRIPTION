@@ -1,9 +1,15 @@
 Package: climateBR
 Type: Package
 Title: Download Rainfall, Temperature, and Wind Data from Brazil
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: c(
-    person("Kaio", "Bárbara", email = "kaio.rbarbara@ufpe.br", role = c("aut", "cre", "cph"))
+    person(
+      "Kaio", 
+      "Bárbara", 
+      email = "kaio.rbarbara@ufpe.br", 
+      role = c("aut", "cre", "cph"),
+      comment = c(ORCID = "0009-0003-4884-7980")
+    )
   )
 Description: Provides functions to download and import meteorological
      data from Brazil's National Institute of Meteorology (INMET)
