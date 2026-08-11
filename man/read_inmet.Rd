@@ -52,7 +52,7 @@ year, station, or variables before collecting the data.
 \examples{
 # Requires INMET data downloaded with download_inmet() and
 # processed into an Arrow dataset with build_inmet_dataset().
-# See the vignette "Downloading meteorological data from Brazil with climateBR".
+# See the vignette "climateBR: An R package to download meteorological data from Brazil".
 # for the complete workflow of this function.
 
 \dontrun{

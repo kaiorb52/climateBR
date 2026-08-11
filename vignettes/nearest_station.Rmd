@@ -7,16 +7,11 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include = FALSE}
+```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-
-library(climateBR)
-library(dplyr)
-library(ggplot2)
-library(sf)
 ```
 
 # Introduction
@@ -30,6 +25,15 @@ This vignette demonstrates how to:
 - visualize the spatial distribution of assigned stations; and
 - inspect the municipality–station connections.
 
+```{r setup packages, warning = FALSE, message = FALSE}
+
+library(climateBR)
+library(dplyr)
+library(ggplot2)
+library(sf)
+
+```
+
 # Preparing the data
 
 The package includes datasets with Brazilian municipalities and INMET weather stations.
@@ -40,12 +44,12 @@ data("inmet_stations")
 
 municipality_pe <- municipality |>
   filter(
-    state == "PE",
+    state_muni == "PE",
     code_ibge7 != "2605459" # Fernando de Noronha
   )
 
 inmet_stations_pe <- inmet_stations |>
-  filter(state == "PE")
+  filter(state_station == "PE")
 ```
 
 # Finding the nearest station

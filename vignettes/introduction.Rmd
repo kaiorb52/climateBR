@@ -1,8 +1,8 @@
 ---
-title: "Downloading meteorological data from Brazil with climateBR"
+title: "climateBR: An R package to download meteorological data from Brazil"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Downloading meteorological data from Brazil with climateBR}
+  %\VignetteIndexEntry{climateBR: A R package to download meteorological data from Brazil}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,15 +16,25 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-This vignette demonstrates the typical workflow for working with INMET data using **climateBR**.
+The main goal of the package is to facilitate research on climate shocks by providing functions that support the different stages of working with climate data. The `download_inmet` function downloads ZIP files containing data from INMET weather stations from the Brazilian government's website. `build_inmet_dataset` helps users create a partitioned database from INMET data, while `read_inmet` provides access to this database. Functions such as `nearest_station` and `kriging_inmet` connect municipalities to the INMET database, allowing researchers to match climate data with information from other sources, such as IBGE or TSE. This makes it possible to conduct correlations and other forms of statistical analysis.
 
-The workflow consists of three steps:
+This vignette demonstrates the central functions for working with **climateBR**. I hope that you enjoy the ride.
 
-1. Download the raw data.
-2. Build a partitioned Arrow dataset.
-3. Read and analyze the processed dataset.
+## Installation
 
-For most applications, we recommend using data from **2008 onwards**, as the INMET network became substantially more complete from this period. Earlier years are available, but the number of operating weather stations is considerably smaller, which may affect spatial coverage and analyses.
+### Stable Build
+
+``` r
+install.packages("climateBR")
+```
+
+### Dev. Build
+
+``` r
+# install.packages("remotes")
+
+remotes::install_github("kaiorb52/climateBR")
+```
 
 ## Download data
 
@@ -67,3 +77,11 @@ rainfall <- read_inmet(
 ```
 
 Depending on the selected years, it is also good practice to inspect and clean the observations before analysis. In some historical INMET files, missing values are encoded as `-9999` instead of `NA`, so these values should be converted to proper missing values before computing summaries or running models.
+
+## How to Cite
+
+When using `climateBR` in academic publications, please cite the package as follows:
+
+```{r}
+citation("climateBR")
+```

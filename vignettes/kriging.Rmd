@@ -41,8 +41,9 @@ flood event together with municipality geometries.
 
 ```{r import data, warning = FALSE, message = FALSE}
 data("floods_rs")
-data("mun_stations_distance")
+data("mun_stations")
 
+# Alternative for: geobr::read_municipality(year = 2024)
 tmp <- tempfile(fileext = ".rda")
 on.exit(unlink(tmp), add = TRUE)
 
@@ -135,11 +136,12 @@ For comparison, the map below assigns each municipality the rainfall value
 from its closest weather station.
 
 ```{r, warning = FALSE, message = FALSE}
+
 mun_floods <- floods_rs |>
   left_join(
-    mun_stations_distance |>
-      filter(ano == 2024, i == 1),
-    by = c("id_who" = "codigo_wmo")
+    mun_stations |>
+      filter(station_order == 1),
+    by = c("id_who" = "code_wmo")
   )
 
 p2 <- mun_24 |>
