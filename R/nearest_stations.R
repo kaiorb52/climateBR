@@ -20,6 +20,29 @@
 #'   station.}
 #' }
 #'
+#' @examples
+#'
+#' data("municipality")
+#' data("inmet_stations")
+#'
+#' mun_rs <- municipality[municipality$state_muni == "RS", ]
+#'
+#' mun_stations1 <- nearest_stations(
+#'   municipality = mun_rs,
+#'   inmet_stations = inmet_stations,
+#'   n = 1
+#' )
+#'
+#' # It is fine to include stations from other states. This is expected,
+#' # as stations from neighboring states may be closer to municipalities
+#' # near state borders.
+#'
+#' mun_stations2 <- nearest_stations(
+#'   municipality = mun_rs,
+#'   inmet_stations = inmet_stations,
+#'   n = 5
+#' )
+#' 
 #' @export
 
 

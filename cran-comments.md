@@ -18,5 +18,3 @@ Changes in this version include:
 - Added the `nearest_stations()` function.
 - Updated and simplified the package datasets.
 - Added new `years` and `partitioning_by` arguments to `build_inmet_dataset()`.
-
-`R CMD check` was run successfully with 0 errors and 0 warnings. The only NOTE is related to the inability to verify the current time.
