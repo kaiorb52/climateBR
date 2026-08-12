@@ -2,7 +2,7 @@
 title: "climateBR: An R package to download meteorological data from Brazil"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{climateBR: A R package to download meteorological data from Brazil}
+  %\VignetteIndexEntry{climateBR: An R package to download meteorological data from Brazil}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
