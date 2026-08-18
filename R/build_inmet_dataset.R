@@ -17,6 +17,10 @@
 #'   to be transformed into an Arrow/Parquet dataset.
 #' @param partitioning_by Vector. Variable(s) in the INMET database used to
 #'   create the parquet folders.
+#' @param progress Logical. 
+#' Should a progress bar be displayed while the INMET files are being processed? 
+#' Defaults to `TRUE`. Set to `FALSE` to disable the progress bar.
+#' 
 #'
 #' @details
 #' This function only needs to be executed once for a collection of
@@ -48,7 +52,7 @@
 #'
 #' @export
 
-build_inmet_dataset <- function(input, output, years = 2000:2026, partitioning_by = c("ano", "codigo_wmo")) {
+build_inmet_dataset <- function(input, output, years = 2000:2026, partitioning_by = c("ano", "codigo_wmo"), progress = TRUE) {
   
   dir.create(output, recursive = TRUE, showWarnings = FALSE)
   
@@ -61,29 +65,38 @@ build_inmet_dataset <- function(input, output, years = 2000:2026, partitioning_b
   
   files <- files[basename(dirname(files)) %in% as.character(years)]
   
+  if (progress == TRUE){
+    pb <- txtProgressBar(min = 0, max = length(files), style = 3)
+  }
+
+  i <- 0
   for (x in files) {
-    
+
     tryCatch({
-      
-    meta <- data.table::fread(x, nrows = 6) |>
+    i <- i + 1
+    
+    meta <- data.table::fread(x, nrows = 6, encoding = "Latin-1") |>
       tidyr::pivot_wider(
         names_from = 1,
         values_from = 2
       ) |>
       janitor::clean_names() |>
       dplyr::select(.data$codigo_wmo)
-    
-    txt <- readLines(x, n = 20, encoding = "UTF-8")
-    header <- grep("^data|^DATA", txt)
+
+    #txt <- readLines(x, n = 20, encoding = "Latin-1", warn = FALSE)
+    #header <- grep("^data[;]|DATA (YYYY-MM-DD)", txt, ignore.case = TRUE)
+    #print(header)
     
     df <- data.table::fread(
         x,
-        skip = header,
+        skip = 8,
+        header = TRUE,
         sep = ";",
-        encoding = "Latin-1"
+        encoding = "Latin-1",
+        na.strings = c("", "-9999", "NA", "NaN")
       ) |>
       janitor::clean_names()
-
+    
     df[3:19] <- lapply(
         df[3:19],
         \(z)
@@ -121,7 +134,7 @@ build_inmet_dataset <- function(input, output, years = 2000:2026, partitioning_b
         .data$ano, .data$mes, .data$codigo_wmo,
         .before = 1
       )
-
+    
     arrow::write_dataset(
       df,
       output,
@@ -130,11 +143,22 @@ build_inmet_dataset <- function(input, output, years = 2000:2026, partitioning_b
     ) 
     rm(df)
     invisible(output)
-
+    Sys.sleep(0.05)
+    
     }, error = function(e) {
       
       # TO-DO ERROR MESSAGE
       
   })
+    
+    if (progress == TRUE){
+      setTxtProgressBar(pb, i)
+    }
+    
   }
+  
+  if (progress == TRUE){
+    close(pb)
+  }
+  
 }

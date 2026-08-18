@@ -9,7 +9,10 @@
 #'   `2008`.
 #' @param unzip_to Character. Directory where the downloaded files will
 #'   be extracted.
-#'
+#' @param progress Logical. 
+#' Should a progress bar be displayed while the INMET files are being processed? 
+#' Defaults to `TRUE`. Set to `FALSE` to disable the progress bar.
+#' 
 #' @details
 #' INMET provides historical observations dating back to 2000. However,
 #' only a small number of weather stations were operating in the early
@@ -51,15 +54,18 @@
 #' @importFrom utils download.file unzip
 #' @export
 
-download_inmet <- function(years = 2008, unzip_to = tempdir()){
+download_inmet <- function(years = 2008, unzip_to = tempdir(), progress = TRUE){
 
   old_options <- options(timeout = max(getOption("timeout"), 600))
   on.exit(options(old_options), add = TRUE)
   
-  check_dir(path = unzip_to)
-
+  if (progress == TRUE){
+    pb <- txtProgressBar(min = 0, max = length(years), style = 3)
+  }
+  
+  i <- 0
   for (x in years){
-
+    i = i + 1
     url_year <- glue("https://portal.inmet.gov.br/uploads/dadoshistoricos/{x}.zip")
     unzip_complete <- glue("{unzip_to}/{x}/")
 
@@ -68,6 +74,9 @@ download_inmet <- function(years = 2008, unzip_to = tempdir()){
     if (check_file(unzip_complete)){
 
       if (length(list.files(unzip_complete)) >= 5){
+        if (progress == TRUE){
+          setTxtProgressBar(pb, i)
+        }
         next
       }
 
@@ -92,6 +101,9 @@ download_inmet <- function(years = 2008, unzip_to = tempdir()){
     )
     
     if (!status) {
+      if (progress == TRUE){
+        setTxtProgressBar(pb, i)
+      }
       next
     }
     
@@ -101,7 +113,17 @@ download_inmet <- function(years = 2008, unzip_to = tempdir()){
       overwrite = TRUE,
       junkpaths = TRUE
     )
-
+    
+    if (progress == TRUE){
+      setTxtProgressBar(pb, i)
+    }
+    
+    Sys.sleep(0.05)
   }
+  
+  if (progress == TRUE){
+    close(pb)
+  }
+  
 }
 
