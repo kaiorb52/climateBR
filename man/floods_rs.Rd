@@ -7,9 +7,10 @@
 \format{
 A data frame with 545 rows and 4 variables:
 \describe{
-  \item{id_who}{Character. INMET weather station identifier.}
+  \item{code_wmo}{Character. World Meteorological Organization (WMO) identifier of the
+  INMET weather station.}
   \item{lat}{Numeric. Latitude of the station in decimal degrees (WGS84).}
-  \item{long}{Numeric. Longitude of the station in decimal degrees (WGS84).}
+  \item{lon}{Numeric. Longitude of the station in decimal degrees (WGS84).}
   \item{total_rainfall}{Numeric. Total accumulated rainfall (mm) during the study period.}
 }
 }

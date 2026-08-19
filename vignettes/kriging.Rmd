@@ -63,7 +63,7 @@ analysis.
 
 ```{r setup, warning = FALSE, message = FALSE}
 rain_sf <- floods_rs |>
-  st_as_sf(coords = c("long", "lat"), crs = 4326) |>
+  st_as_sf(coords = c("lon", "lat"), crs = 4326) |>
   st_transform(crs = 29193)
 
 mun_centroid <- mun_24 |>
@@ -141,7 +141,7 @@ mun_floods <- floods_rs |>
   left_join(
     mun_stations |>
       filter(station_order == 1),
-    by = c("id_who" = "code_wmo")
+    by = c("code_wmo" = "code_wmo")
   )
 
 p2 <- mun_24 |>

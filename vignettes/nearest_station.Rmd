@@ -72,6 +72,7 @@ head(mun_stations_pe)
 tmp <- tempfile(fileext = ".rda")
 on.exit(unlink(tmp), add = TRUE)
 
+# Alternative for: geobr::read_municipality(year = 2024)
 download.file(
   "https://github.com/kaiorb52/dados_municipais/raw/main/mun_24.rda",
   destfile = tmp,
