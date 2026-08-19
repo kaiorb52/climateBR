@@ -51,7 +51,7 @@
 #' }
 #'
 #' @import glue
-#' @importFrom utils download.file unzip
+#' @importFrom utils download.file unzip txtProgressBar setTxtProgressBar
 #' @export
 
 download_inmet <- function(years = 2008, unzip_to = tempdir(), progress = TRUE){
@@ -118,7 +118,6 @@ download_inmet <- function(years = 2008, unzip_to = tempdir(), progress = TRUE){
       setTxtProgressBar(pb, i)
     }
     
-    Sys.sleep(0.05)
   }
   
   if (progress == TRUE){

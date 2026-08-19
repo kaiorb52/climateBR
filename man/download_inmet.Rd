@@ -4,7 +4,7 @@
 \alias{download_inmet}
 \title{Download historical meteorological data from INMET}
 \usage{
-download_inmet(years = 2008, unzip_to = tempdir())
+download_inmet(years = 2008, unzip_to = tempdir(), progress = TRUE)
 }
 \arguments{
 \item{years}{Integer vector specifying the years to download.
@@ -13,6 +13,10 @@ Historical data are available from 2000 onwards. The default is
 
 \item{unzip_to}{Character. Directory where the downloaded files will
 be extracted.}
+
+\item{progress}{Logical. 
+Should a progress bar be displayed while the INMET files are being processed? 
+Defaults to `TRUE`. Set to `FALSE` to disable the progress bar.}
 }
 \value{
 This function is called for its side effects. ZIP files are downloaded,

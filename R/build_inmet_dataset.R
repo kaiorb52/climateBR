@@ -43,12 +43,14 @@
 #'
 #' build_inmet_dataset(
 #'   input = file.path(tempdir(), "inmet_raw"),
-#'   output = file.path(tempdir(), "inmet_arrow")
+#'   output = file.path(tempdir(), "inmet_arrow"),
+#'   progress = FALSE
 #' )
 #'
 #' }
 #' 
 #' @importFrom rlang .data
+#' @importFrom utils txtProgressBar setTxtProgressBar
 #'
 #' @export
 
@@ -143,8 +145,7 @@ build_inmet_dataset <- function(input, output, years = 2000:2026, partitioning_b
     ) 
     rm(df)
     invisible(output)
-    Sys.sleep(0.05)
-    
+
     }, error = function(e) {
       
       # TO-DO ERROR MESSAGE

@@ -8,7 +8,8 @@ build_inmet_dataset(
   input,
   output,
   years = 2000:2026,
-  partitioning_by = c("ano", "codigo_wmo")
+  partitioning_by = c("ano", "codigo_wmo"),
+  progress = TRUE
 )
 }
 \arguments{
@@ -23,6 +24,10 @@ to be transformed into an Arrow/Parquet dataset.}
 
 \item{partitioning_by}{Vector. Variable(s) in the INMET database used to
 create the parquet folders.}
+
+\item{progress}{Logical. 
+Should a progress bar be displayed while the INMET files are being processed? 
+Defaults to `TRUE`. Set to `FALSE` to disable the progress bar.}
 }
 \value{
 Invisibly returns the output directory.
@@ -53,7 +58,8 @@ required by a query.
 
 build_inmet_dataset(
   input = file.path(tempdir(), "inmet_raw"),
-  output = file.path(tempdir(), "inmet_arrow")
+  output = file.path(tempdir(), "inmet_arrow"),
+  progress = FALSE
 )
 
 }
