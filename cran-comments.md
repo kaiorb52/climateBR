@@ -1,7 +1,7 @@
 
-## R CMD check results ────── climateBR 0.2.0 ────
+## R CMD check results ──────────────────── climateBR 0.2.0 ────
 
-Duration: 54.3s
+Duration: 2m 38.9s
 
 ❯ checking for future file timestamps ... NOTE
   unable to verify current time
@@ -18,3 +18,4 @@ Changes in this version include:
 - Added the `nearest_stations()` function.
 - Updated and simplified the package datasets.
 - Added new `years` and `partitioning_by` arguments to `build_inmet_dataset()`.
+- Added a progress bar to the `download_inmet()` and `build_inmet_dataset()` functions.
