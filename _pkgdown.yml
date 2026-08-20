@@ -1,0 +1,20 @@
+url: ~
+template:
+  bootstrap: 5
+
+reference:
+- title: Functions
+  contents:
+    - download_inmet
+    - build_inmet_dataset
+    - read_inmet
+    - kriging_inmet
+    - nearest_stations
+- title: Datasets
+  contents:
+    - municipality
+    - inmet_stations
+    - floods_rs
+    - mun_stations
+    - rain_stations
+    - mun_stations_distance

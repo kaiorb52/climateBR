@@ -7,3 +7,6 @@
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
 ^man/figures/*
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
