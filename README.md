@@ -1,22 +1,16 @@
-# climateBR
+# climateBR: Download Rainfall, Temperature, and Wind Data from Brazil
+
+[![CRAN status](https://www.r-pkg.org/badges/version/climateBR)](https://CRAN.R-project.org/package=climateBR) [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/climateBR)](https://cran.r-project.org/package=climateBR)
 
 **climateBR** was developed to help social scientists operationalize research on climate shocks in Brazil. The package provides tools to download, process, and analyze historical meteorological data from the Brazilian National Institute of Meteorology (INMET).
 
-INMET station data are available from 2000 to the present. However, I recommend focusing analyses on data from 2008 onward, as there are substantially more observations available from this period. Before 2008, fewer than 200 stations were operating.
-
 ## Installation
 
-The package is available on CRAN and can be installed using the standard R installation method:
-
 ``` r
+# From CRAN
 install.packages("climateBR")
-```
 
-If you want to test the latest development version, which may include new functions and features, you can install it from GitHub:
-
-``` r
-# install.packages("remotes")
-
+# or use the development version with latest features
 remotes::install_github("kaiorb52/climateBR")
 ```
 
