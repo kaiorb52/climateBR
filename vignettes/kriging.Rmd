@@ -137,10 +137,17 @@ from its closest weather station.
 
 ```{r, warning = FALSE, message = FALSE}
 
+data("inmet_stations")
+
+mun_stations2 <- mun_stations |> 
+  left_join(inmet_stations |> select(code_wmo, creation_year)) |> 
+  filter(creation_year <= 2024) |> 
+  arrange(distance) |> 
+  distinct(code_ibge7, .keep_all = TRUE)
+
 mun_floods <- floods_rs |>
   left_join(
-    mun_stations |>
-      filter(station_order == 1),
+    mun_stations2,
     by = c("code_wmo" = "code_wmo")
   )
 
