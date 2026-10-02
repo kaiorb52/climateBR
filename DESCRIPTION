@@ -1,7 +1,7 @@
 Package: climateBR
 Type: Package
 Title: Download Rainfall, Temperature, and Wind Data from Brazil
-Version: 0.2.0
+Version: 0.2.5
 Authors@R: c(
     person(
       "Kaio", 
@@ -18,7 +18,6 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: xz
-RoxygenNote: 7.3.3
 Imports: 
   glue,
   arrow,
@@ -34,7 +33,9 @@ Suggests:
     rmarkdown,
     ggplot2,
     patchwork,
-    geobr
+    geobr,
+    chromote,
+    rvest
 Depends:
     R (>= 4.1.0),
     rlang,
@@ -43,3 +44,4 @@ Depends:
 VignetteBuilder: knitr
 URL: https://github.com/kaiorb52/climateBR
 BugReports: https://github.com/kaiorb52/climateBR/issues
+Config/roxygen2/version: 8.1.0

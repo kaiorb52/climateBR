@@ -10,8 +10,13 @@ import(gstat)
 import(sf)
 importFrom(dplyr,pull)
 importFrom(rlang,.data)
-importFrom(stats,as.formula)
-importFrom(utils,download.file)
-importFrom(utils,setTxtProgressBar)
-importFrom(utils,txtProgressBar)
-importFrom(utils,unzip)
+importFrom(stats,
+  as.formula,
+  na.omit
+)
+importFrom(utils,
+  download.file,
+  setTxtProgressBar,
+  txtProgressBar,
+  unzip
+)
