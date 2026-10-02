@@ -36,10 +36,10 @@
 #' [gstat::fit.variogram()]
 #' @examples
 #' # Requires spatial data (e.g., municipal boundaries) together with
-#' # INMET stations observations. The example dataset `floods_rs`
-#' # illustrates the required input format for the `stations_df` parameter. 
-#' # See the vignette "Spatial Interpolation Using Ordinary Kriging" 
-#' # for the complete workflow of this function.
+#' # INMET station observations. The example dataset `floods_rs`
+#' # shows the input format required by `stations_df`.
+#' # See the vignette "Spatial Interpolation Using Ordinary Kriging"
+#' # for the complete workflow.
 #'
 #' \dontrun{
 #' 

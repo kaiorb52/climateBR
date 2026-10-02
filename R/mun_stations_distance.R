@@ -9,12 +9,12 @@
 #' network changes over time, distances were calculated for snapshots taken
 #' every two years (2008, 2010, 2012, 2014, 2016, 2018, 2020, 2022, 2024).
 #'
-#' Each municipality is associated with all available INMET stations for the
-#' corresponding year, ordered by increasing distance. The variable `i`
-#' indicates the rank of the station according to its proximity to the
+#' For each year, each municipality is matched to its 10 nearest INMET
+#' stations within the same Brazilian macro-region, ordered by increasing
+#' distance. The variable `i` is the rank of the station by proximity to the
 #' municipality centroid.
 #'
-#' @format A data frame with the following variables:
+#' @format A data frame with 501,390 rows and 5 variables:
 #' \describe{
 #'   \item{code_muni}{Seven-digit IBGE municipality code.}
 #'   \item{codigo_wmo}{WMO identifier of the INMET rainfall station.}

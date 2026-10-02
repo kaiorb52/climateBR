@@ -9,9 +9,8 @@
 #'   `2008`.
 #' @param unzip_to Character. Directory where the downloaded files will
 #'   be extracted.
-#' @param progress Logical. 
-#' Should a progress bar be displayed while the INMET files are being processed? 
-#' Defaults to `TRUE`. Set to `FALSE` to disable the progress bar.
+#' @param progress Logical. If `TRUE` (default), displays a progress bar
+#'   while downloading the INMET files.
 #' 
 #' @details
 #' INMET provides historical observations dating back to 2000. However,
