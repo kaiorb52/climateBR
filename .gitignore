@@ -7,3 +7,6 @@ inst/doc
 /Meta/
 CRAN-SUBMISSION
 docs
+tests/
+*.csv
+*.parquet
