@@ -5,7 +5,7 @@
 \alias{floods_rs}
 \title{Rainfall during the 2024 Rio Grande do Sul floods}
 \format{
-A data frame with 545 rows and 4 variables:
+A data frame with 565 rows and 4 variables:
 \describe{
   \item{code_wmo}{Character. World Meteorological Organization (WMO) identifier of the
   INMET weather station.}
@@ -26,7 +26,7 @@ operated by the Brazilian National Institute of Meteorology (INMET) during
 the extreme flooding event that affected Rio Grande do Sul, Brazil, in 2024.
 }
 \details{
-The dataset contains 545 monitoring stations distributed across Brazil.
+The dataset contains 565 monitoring stations distributed across Brazil.
 Each row corresponds to a single INMET weather station and includes its
 identification code, geographic coordinates, and the total accumulated
 rainfall (in millimeters) recorded between April 27 and May 5, 2024.

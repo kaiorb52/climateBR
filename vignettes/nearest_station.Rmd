@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-Many climate analyses require assigning each municipality to its closest meteorological station. The `nearest_stations()` function automates this process by identifying the nearest INMET station for every municipality.
+Many climate analyses need to assign each municipality to its closest weather station. `nearest_stations()` automates this by finding the nearest INMET station(s) for every municipality.
 
 ```{r setup packages, warning = FALSE, message = FALSE}
 
@@ -29,7 +29,7 @@ library(sf)
 
 # Preparing the data
 
-The package includes datasets with Brazilian municipalities and INMET weather stations.
+The package includes datasets of Brazilian municipalities (`municipality`) and INMET weather stations (`inmet_stations`). This example uses the state of Pernambuco (PE).
 
 ```{r}
 data("municipality")
@@ -47,7 +47,7 @@ inmet_stations_pe <- inmet_stations |>
 
 # Finding the nearest station
 
-Use `nearest_stations()` to identify the closest station for each municipality.
+Use `nearest_stations()` with `n = 1` to find the closest station for each municipality.
 
 ```{r}
 mun_stations_pe <- nearest_stations(
@@ -61,11 +61,13 @@ head(mun_stations_pe)
 
 # Municipality–station connections
 
+The top map colors each municipality by its nearest station. The bottom map draws a line from each municipality centroid (×) to its nearest station (◆).
+
 ```{r, echo=FALSE, warning = FALSE, message = FALSE}
 tmp <- tempfile(fileext = ".rda")
 on.exit(unlink(tmp), add = TRUE)
 
-# Alternative for: geobr::read_municipality(year = 2024)
+# Alternative to: geobr::read_municipality(year = 2024)
 download.file(
   "https://github.com/kaiorb52/dados_municipais/raw/main/mun_24.rda",
   destfile = tmp,

@@ -12,7 +12,7 @@ A data frame with 9,459 rows and 11 variables:
   \item{codigo_wmo}{WMO station identifier.}
   \item{ano}{Reference year.}
   \item{nome_formatado}{Standardized station name.}
-  \item{frist_year}{First year with available observations for the station.}
+  \item{first_year}{First year with available observations for the station.}
   \item{last_year}{Last year with available observations for the station.}
   \item{id_ibge7}{Seven-digit IBGE municipality code.}
   \item{id_tse}{Municipality code used by the Brazilian Electoral Court (TSE).}
@@ -32,9 +32,9 @@ Brazilian National Institute of Meteorology (INMET). Each row represents a
 meteorological station in a specific year between 2000 and 2024.
 }
 \details{
-The dataset includes station identifiers, location information, state,
-municipality codes, and the first and last years in which data are available
-for each station.
+The dataset includes the station identifier, name, state, location,
+municipality codes, and the first and last years with available data for
+each station.
 }
 \examples{
 head(rain_stations)

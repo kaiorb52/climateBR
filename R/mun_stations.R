@@ -8,7 +8,7 @@
 #' is associated with its five closest INMET stations, ordered by increasing
 #' distance.
 #'
-#' @format A tibble with 27,850 rows and 4 variables:
+#' @format A tibble with 27,850 rows and 5 variables:
 #' \describe{
 #'   \item{state_muni}{Brazilian state abbreviation.}
 #'   \item{code_ibge7}{Seven-digit IBGE municipality code.}
@@ -21,18 +21,16 @@
 #' }
 #' 
 #' @details
-#' The dataset was generated using the `nearest_stations()` function from the
-#' climateBR package, matching municipality centroids to the five closest INMET
-#' weather stations available in the package's `inmet_stations` dataset.
+#' The dataset was generated with [nearest_stations()], matching each
+#' municipality centroid to the five closest stations in the
+#' `inmet_stations` dataset.
 #'
-#' This dataset is based on the most recent version of the INMET station
-#' network available in the package. It is intended for analyses using recent
-#' observations. Because the INMET network changes over time (stations may be
-#' added or removed), this dataset should not be used to match
-#' historical data from earlier years. For historical analyses, users should
-#' create a year-specific municipality-to-station mapping using the
-#' corresponding historical INMET station 
-#' 
+#' It reflects the most recent INMET station network and is intended for
+#' analyses of recent observations. Because stations are added and removed
+#' over time, do not use it to match data from earlier years. For historical
+#' analyses, use `mun_stations_distance` or build a year-specific mapping
+#' with [nearest_stations()] and the station network of that year.
+#'
 #' @source
 #' Distances were computed from municipality centroid coordinates and INMET
 #' station coordinates using the Haversine formula.

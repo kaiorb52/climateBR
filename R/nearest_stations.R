@@ -13,9 +13,9 @@
 #' A tibble with the columns:
 #' \describe{
 #'   \item{state_muni}{Brazilian state abbreviation.}
-#'   \item{code_ibge7}{Municipality code.}
-#'   \item{code_wmo}{INMET station code.}
-#'   \item{distance}{Distance (in meters) between the municipality and station.}
+#'   \item{code_ibge7}{Seven-digit IBGE municipality code.}
+#'   \item{code_wmo}{WMO identifier of the INMET station.}
+#'   \item{distance}{Distance (in kilometers) between the municipality and the station.}
 #'   \item{station_order}{Rank of the station by distance, where 1 indicates the nearest
 #'   station.}
 #' }
@@ -33,9 +33,9 @@
 #'   n = 1
 #' )
 #'
-#' # It is fine to include stations from other states. This is expected,
-#' # as stations from neighboring states may be closer to municipalities
-#' # near state borders.
+#' # Stations from other states may be returned. This is expected:
+#' # municipalities near state borders may be closer to a station in a
+#' # neighboring state.
 #'
 #' mun_stations2 <- nearest_stations(
 #'   municipality = mun_rs,

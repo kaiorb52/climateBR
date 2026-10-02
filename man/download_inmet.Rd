@@ -14,9 +14,8 @@ Historical data are available from 2000 onwards. The default is
 \item{unzip_to}{Character. Directory where the downloaded files will
 be extracted.}
 
-\item{progress}{Logical. 
-Should a progress bar be displayed while the INMET files are being processed? 
-Defaults to `TRUE`. Set to `FALSE` to disable the progress bar.}
+\item{progress}{Logical. If `TRUE` (default), displays a progress bar
+while downloading the INMET files.}
 }
 \value{
 This function is called for its side effects. ZIP files are downloaded,

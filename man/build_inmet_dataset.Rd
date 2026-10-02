@@ -9,6 +9,8 @@ build_inmet_dataset(
   output,
   years = 2000:2026,
   partitioning_by = c("ano", "codigo_wmo"),
+  region = "all",
+  state = "all",
   progress = TRUE
 )
 }
@@ -19,15 +21,22 @@ downloaded with [download_inmet()].}
 \item{output}{Character. Directory where the partitioned
 Arrow/Parquet dataset will be written.}
 
-\item{years}{Vector. Group of years of the INMET database located in `input`
-to be transformed into an Arrow/Parquet dataset.}
+\item{years}{Integer vector. Years of INMET data in `input` to convert
+into the Arrow/Parquet dataset. Defaults to `2000:2026`.}
 
-\item{partitioning_by}{Vector. Variable(s) in the INMET database used to
-create the parquet folders.}
+\item{partitioning_by}{Character vector. Variable(s) used to partition
+the dataset; each variable creates one level of Parquet folders.
+Defaults to `c("ano", "codigo_wmo")`.}
 
-\item{progress}{Logical. 
-Should a progress bar be displayed while the INMET files are being processed? 
-Defaults to `TRUE`. Set to `FALSE` to disable the progress bar.}
+\item{region}{Character vector. INMET region abbreviation(s) to filter
+(e.g. `"NE"`, `"SE"`). Defaults to `"all"`, which applies no filter.}
+
+\item{state}{Character vector. Brazilian state abbreviation(s) (`uf`) to
+filter (e.g. `"BA"`, `"SP"`). Defaults to `"all"`, which applies no
+filter.}
+
+\item{progress}{Logical. If `TRUE` (default), displays a progress bar
+while processing the INMET files.}
 }
 \value{
 Invisibly returns the output directory.
@@ -40,8 +49,8 @@ Arrow/Parquet dataset optimized for fast querying with
 \details{
 During the conversion, metadata are extracted from each file,
 column names are standardized, numeric variables are converted to
-numeric format, and the resulting dataset is partitioned by year
-(`ano`) and WMO station code (`codigo_wmo`).
+numeric format, and the resulting dataset is partitioned (by default)
+by year (`ano`) and WMO station code (`codigo_wmo`).
 
 
 This function only needs to be executed once for a collection of
@@ -49,9 +58,8 @@ downloaded INMET files. After the dataset has been created, it can
 be accessed efficiently using [read_inmet()] without repeatedly
 parsing the original CSV files.
 
-The resulting dataset is partitioned by year (`ano`) and weather
-station (`codigo_wmo`), allowing Arrow to read only the files
-required by a query.
+With the default partitioning by year (`ano`) and weather station
+(`codigo_wmo`), Arrow reads only the files required by a query.
 }
 \examples{
 \donttest{
