@@ -36,15 +36,15 @@ A tibble with the columns:
 
 - code_ibge7:
 
-  Municipality code.
+  Seven-digit IBGE municipality code.
 
 - code_wmo:
 
-  INMET station code.
+  WMO identifier of the INMET station.
 
 - distance:
 
-  Distance (in meters) between the municipality and station.
+  Distance (in kilometers) between the municipality and the station.
 
 - station_order:
 
@@ -66,9 +66,9 @@ mun_stations1 <- nearest_stations(
   n = 1
 )
 
-# It is fine to include stations from other states. This is expected,
-# as stations from neighboring states may be closer to municipalities
-# near state borders.
+# Stations from other states may be returned. This is expected:
+# municipalities near state borders may be closer to a station in a
+# neighboring state.
 
 mun_stations2 <- nearest_stations(
   municipality = mun_rs,

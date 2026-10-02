@@ -30,7 +30,7 @@ flood event together with municipality geometries.
 data("floods_rs")
 data("mun_stations")
 
-# Alternative for: geobr::read_municipality(year = 2024)
+# Alternative to: geobr::read_municipality(year = 2024)
 tmp <- tempfile(fileext = ".rda")
 on.exit(unlink(tmp), add = TRUE)
 
@@ -44,8 +44,8 @@ load(tmp)
 ```
 
 The station observations are converted to an `sf` object and projected
-to a planar coordinate reference system suitable for distance-based
-spatial analysis.
+to a planar coordinate reference system, which is required for
+distance-based spatial analysis.
 
 ``` r
 
@@ -173,19 +173,20 @@ nearest-station method assigns the same value to all municipalities
 linked to a given station and may introduce abrupt spatial
 discontinuities.
 
-Each approach has important advantages and limitations. Ordinary kriging
-accounts for spatial dependence and usually generates more realistic
-spatial patterns than others methods. However, because it is a
-statistical interpolation technique, it may produce physically
-unrealistic estimates, such as negative rainfall values, and it often
-smooths the spatial field, reducing the magnitude of extreme
-precipitation events. As a result, very high observed rainfall totals
-may be underestimated in the interpolated surface. In contrast, the
-nearest-station approach preserves the original observed values,
-including extremes, but can create large areas with identical rainfall
-estimates because multiple municipalities may be assigned to the same
-station. This can lead to artificial boundaries and abrupt changes
-between neighboring municipalities that do not reflect the continuous
-nature of precipitation processes.
+Each approach has advantages and limitations:
+
+- **Ordinary kriging** accounts for spatial dependence and usually
+  produces more realistic spatial patterns. However, as a statistical
+  interpolation method, it can produce physically impossible values
+  (such as negative rainfall) and tends to smooth the surface, so very
+  high rainfall totals may be underestimated.
+- **Nearest station** preserves the observed values, including extremes.
+  However, many municipalities may share the same station, which creates
+  large areas with identical values and artificial boundaries between
+  neighboring municipalities. Real rainfall does not change abruptly at
+  these boundaries.
+
+The histograms below compare the distribution of municipality-level
+estimates from both approaches.
 
 ![](kriging_files/figure-html/unnamed-chunk-7-1.png)

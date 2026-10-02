@@ -1,6 +1,7 @@
-# Municipality Database
+# Brazilian municipalities
 
-Municipality Database
+Dataset with the IBGE and TSE codes, state, and centroid coordinates of
+each Brazilian municipality.
 
 ## Usage
 
@@ -10,7 +11,7 @@ municipality
 
 ## Format
 
-A data frame with the following variables:
+A data frame with 5,570 rows and 6 variables:
 
 - state_muni:
 
@@ -26,15 +27,16 @@ A data frame with the following variables:
 
 - code_tse:
 
-  Six-digit IBGE municipality code.
+  Municipality code used by the Brazilian Superior Electoral Court
+  (TSE).
 
 - lat:
 
-  Municipality Centroid Latitude in decimal degrees (WGS84).
+  Latitude of the municipality centroid in decimal degrees (WGS84).
 
 - lon:
 
-  Municipality Centroid Longitude in decimal degrees (WGS84).
+  Longitude of the municipality centroid in decimal degrees (WGS84).
 
 ## Examples
 

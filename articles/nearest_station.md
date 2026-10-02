@@ -2,11 +2,10 @@
 
 ## Introduction
 
-Many climate analyses require assigning each municipality to its closest
-meteorological station. The
-[`nearest_stations()`](../reference/nearest_stations.md) function
-automates this process by identifying the nearest INMET station for
-every municipality.
+Many climate analyses need to assign each municipality to its closest
+weather station.
+[`nearest_stations()`](../reference/nearest_stations.md) automates this
+by finding the nearest INMET station(s) for every municipality.
 
 ``` r
 
@@ -19,8 +18,9 @@ library(sf)
 
 ## Preparing the data
 
-The package includes datasets with Brazilian municipalities and INMET
-weather stations.
+The package includes datasets of Brazilian municipalities
+(`municipality`) and INMET weather stations (`inmet_stations`). This
+example uses the state of Pernambuco (PE).
 
 ``` r
 
@@ -39,8 +39,8 @@ inmet_stations_pe <- inmet_stations |>
 
 ## Finding the nearest station
 
-Use [`nearest_stations()`](../reference/nearest_stations.md) to identify
-the closest station for each municipality.
+Use [`nearest_stations()`](../reference/nearest_stations.md) with
+`n = 1` to find the closest station for each municipality.
 
 ``` r
 
@@ -63,5 +63,9 @@ head(mun_stations_pe)
 ```
 
 ## Municipality–station connections
+
+The top map colors each municipality by its nearest station. The bottom
+map draws a line from each municipality centroid (×) to its nearest
+station (◆).
 
 ![](nearest_station_files/figure-html/unnamed-chunk-5-1.png)

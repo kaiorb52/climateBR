@@ -35,7 +35,7 @@ A data frame with 9,459 rows and 11 variables:
 
   Standardized station name.
 
-- frist_year:
+- first_year:
 
   First year with available observations for the station.
 
@@ -65,16 +65,16 @@ Instituto Nacional de Meteorologia (INMET).
 
 ## Details
 
-The dataset includes station identifiers, location information, state,
-municipality codes, and the first and last years in which data are
-available for each station.
+The dataset includes the station identifier, name, state, location,
+municipality codes, and the first and last years with available data for
+each station.
 
 ## Examples
 
 ``` r
 head(rain_stations)
 #> # A tibble: 6 × 11
-#>   uf    estacao   codigo_wmo ano   nome_formatado frist_year last_year id_ibge7
+#>   uf    estacao   codigo_wmo ano   nome_formatado first_year last_year id_ibge7
 #>   <chr> <chr>     <chr>      <chr> <chr>          <chr>      <chr>        <dbl>
 #> 1 RO    ARIQUEMES A940       2024  ariquemes      2008       2024       1100023
 #> 2 RO    ARIQUEMES A940       2023  ariquemes      2008       2024       1100023

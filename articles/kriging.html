@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">climateBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -93,7 +93,7 @@ Sul flood event together with municipality geometries.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"floods_rs"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"mun_stations"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Alternative for: geobr::read_municipality(year = 2024)</span></span>
+<span><span class="co"># Alternative to: geobr::read_municipality(year = 2024)</span></span>
 <span><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".rda"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
@@ -105,8 +105,8 @@ Sul flood event together with municipality geometries.</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span></code></pre></div>
 <p>The station observations are converted to an <code>sf</code> object
-and projected to a planar coordinate reference system suitable for
-distance-based spatial analysis.</p>
+and projected to a planar coordinate reference system, which is required
+for distance-based spatial analysis.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rain_sf</span> <span class="op">&lt;-</span> <span class="va">floods_rs</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lon"</span>, <span class="st">"lat"</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -218,20 +218,23 @@ incorporates information from multiple nearby stations, whereas the
 nearest-station method assigns the same value to all municipalities
 linked to a given station and may introduce abrupt spatial
 discontinuities.</p>
-<p>Each approach has important advantages and limitations. Ordinary
-kriging accounts for spatial dependence and usually generates more
-realistic spatial patterns than others methods. However, because it is a
-statistical interpolation technique, it may produce physically
-unrealistic estimates, such as negative rainfall values, and it often
-smooths the spatial field, reducing the magnitude of extreme
-precipitation events. As a result, very high observed rainfall totals
-may be underestimated in the interpolated surface. In contrast, the
-nearest-station approach preserves the original observed values,
-including extremes, but can create large areas with identical rainfall
-estimates because multiple municipalities may be assigned to the same
-station. This can lead to artificial boundaries and abrupt changes
-between neighboring municipalities that do not reflect the continuous
-nature of precipitation processes.</p>
+<p>Each approach has advantages and limitations:</p>
+<ul>
+<li>
+<strong>Ordinary kriging</strong> accounts for spatial dependence
+and usually produces more realistic spatial patterns. However, as a
+statistical interpolation method, it can produce physically impossible
+values (such as negative rainfall) and tends to smooth the surface, so
+very high rainfall totals may be underestimated.</li>
+<li>
+<strong>Nearest station</strong> preserves the observed values,
+including extremes. However, many municipalities may share the same
+station, which creates large areas with identical values and artificial
+boundaries between neighboring municipalities. Real rainfall does not
+change abruptly at these boundaries.</li>
+</ul>
+<p>The histograms below compare the distribution of municipality-level
+estimates from both approaches.</p>
 <p><img src="kriging_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="864"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

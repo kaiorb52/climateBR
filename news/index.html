@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">climateBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,29 +39,35 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.5" id="climatebr-025">climateBR 0.2.5<a class="anchor" aria-label="anchor" href="#climatebr-025"></a></h2>
+<p>Minor release: the README and vignettes were revised.</p>
+<ul><li>
+<code>rain_stations</code> — the <code>frist_year</code> column was renamed to <code>first_year</code>.</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="climatebr-020">climateBR 0.2.0<a class="anchor" aria-label="anchor" href="#climatebr-020"></a></h2><p class="text-muted">CRAN release: 2026-08-19</p>
-<p>This new release introduces a new function, revamps the existing datasets with cleaner and more concise versions, and, most importantly, fixes several bugs related to downloading data and building the INMET database.</p>
+<p>This release adds a new function, replaces the existing datasets with cleaner and more concise versions, and fixes several bugs in downloading data and building the INMET dataset.</p>
 <div class="section level3">
 <h3 id="new-function-0-2-0">New function<a class="anchor" aria-label="anchor" href="#new-function-0-2-0"></a></h3>
 <ul><li>
-<code>nearest_stations</code> — helps users identify the distances between municipalities and INMET stations and determine which stations are closest to each municipality.</li>
+<code><a href="../reference/nearest_stations.html">nearest_stations()</a></code> — computes the distances between municipalities and INMET stations and returns the stations closest to each municipality.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="datasets-0-2-0">Datasets<a class="anchor" aria-label="anchor" href="#datasets-0-2-0"></a></h3>
 <ul><li>
-<code>inmet_stations</code> — this dataset is essentially a revamped version of the previous <code>rain_stations</code> dataset. The older dataset contained information on INMET stations available from 2000 to 2024, meaning that the same station could appear multiple times across different years. The new version uses the most recent station information available through 2026 and contains one observation per station, avoiding unnecessary repetition.</li>
+<code>inmet_stations</code> — a revised version of <code>rain_stations</code>. The older dataset listed INMET stations by year from 2000 to 2024, so the same station appeared many times. The new version uses the most recent station information (through 2026) and has one row per station.</li>
 <li>
-<code>mun_stations</code> — the previous <code>mun_stations_distance</code> dataset contained the distances between municipalities and INMET stations for every two-year period from 2008 to 2024. This new version contains the distances calculated between municipalities and INMET stations using the <code>inmet_stations</code> dataset and the <code>nearest_stations</code> function.</li>
+<code>mun_stations</code> — <code>mun_stations_distance</code> contains municipality-to-station distances for every other year from 2008 to 2024. The new <code>mun_stations</code> contains the distances computed with <code><a href="../reference/nearest_stations.html">nearest_stations()</a></code> and the <code>inmet_stations</code> dataset.</li>
 <li>
-<code>municipality</code> — a brand-new dataset containing basic information on Brazilian municipalities, including IBGE and TSE municipality codes, state, and the latitude and longitude of each municipality’s centroid.</li>
+<code>municipality</code> — a new dataset with basic information on Brazilian municipalities: IBGE and TSE codes, state, and centroid latitude and longitude.</li>
 <li>
-<code>floods_rs</code> — renamed the ‘id_who’ column to ‘code_wmo’.</li>
+<code>floods_rs</code> — the <code>id_who</code> column was renamed to <code>code_wmo</code>.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bugfixes-and-quality-of-life-0-2-0">Bugfixes and Quality of Life<a class="anchor" aria-label="anchor" href="#bugfixes-and-quality-of-life-0-2-0"></a></h3>
-<ul><li>Blank CSV files from 2026 could cause the <code>build_inmet_dataset</code> process to fail. This bug has been fixed.</li>
-<li>The <code>data</code> variable in the time series from later years were categorized differently, which could result in an inconsistent partitioned database when using <code>build_inmet_dataset</code> and cause errors when running <code>read_inmet</code>.</li>
-<li>New parameters <code>years</code> and <code>partitioning_by</code>, have been added to <code>build_inmet_dataset</code>.</li>
+<ul><li>Fixed: blank CSV files from 2026 caused <code><a href="../reference/build_inmet_dataset.html">build_inmet_dataset()</a></code> to fail.</li>
+<li>Fixed: the <code>data</code> variable had a different type in recent years, which produced an inconsistent partitioned dataset in <code><a href="../reference/build_inmet_dataset.html">build_inmet_dataset()</a></code> and caused errors in <code><a href="../reference/read_inmet.html">read_inmet()</a></code>.</li>
+<li>Added the <code>years</code> and <code>partitioning_by</code> parameters to <code><a href="../reference/build_inmet_dataset.html">build_inmet_dataset()</a></code>.</li>
 <li>Added a progress bar to the <code><a href="../reference/download_inmet.html">download_inmet()</a></code> and <code><a href="../reference/build_inmet_dataset.html">build_inmet_dataset()</a></code> functions.</li>
 </ul></div>
 </div>
@@ -71,13 +77,13 @@
 <li>
 <p>Functions:</p>
 <ul><li>
-<code><a href="../reference/download_inmet.html">download_inmet()</a></code> — download historical weather station data from INMET.</li>
+<code><a href="../reference/download_inmet.html">download_inmet()</a></code> — downloads historical weather station data from INMET.</li>
 <li>
-<code><a href="../reference/build_inmet_dataset.html">build_inmet_dataset()</a></code> — convert raw CSV files into partitioned Arrow/Parquet datasets.</li>
+<code><a href="../reference/build_inmet_dataset.html">build_inmet_dataset()</a></code> — converts raw CSV files into partitioned Arrow/Parquet datasets.</li>
 <li>
-<code><a href="../reference/read_inmet.html">read_inmet()</a></code> — efficient querying of large INMET datasets.</li>
+<code><a href="../reference/read_inmet.html">read_inmet()</a></code> — queries large INMET datasets efficiently.</li>
 <li>
-<code><a href="../reference/kriging_inmet.html">kriging_inmet()</a></code> — ordinary kriging interpolation.</li>
+<code><a href="../reference/kriging_inmet.html">kriging_inmet()</a></code> — performs ordinary kriging interpolation.</li>
 </ul></li>
 </ul></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

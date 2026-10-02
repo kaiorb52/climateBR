@@ -13,7 +13,7 @@ without loading all observations into memory."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">climateBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -105,8 +105,8 @@ selected observations.</p>
 possible, making it suitable for working with large datasets.</p>
 <p>Setting `collect = TRUE` loads the selected observations into
 memory. This may require a large amount of RAM when reading
-many years or stations simultaneously. Consider filtering by
-year, station, or variables before collecting the data.</p>
+many years or stations at once. Filter by year, station, or
+variable before collecting the data.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -117,8 +117,8 @@ year, station, or variables before collecting the data.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Requires INMET data downloaded with download_inmet() and</span></span></span>
 <span class="r-in"><span><span class="co"># processed into an Arrow dataset with build_inmet_dataset().</span></span></span>
-<span class="r-in"><span><span class="co"># See the vignette "climateBR: An R package to download meteorological data from Brazil".</span></span></span>
-<span class="r-in"><span><span class="co"># for the complete workflow of this function.</span></span></span>
+<span class="r-in"><span><span class="co"># See the vignette "climateBR: An R package to download meteorological</span></span></span>
+<span class="r-in"><span><span class="co"># data from Brazil" for the complete workflow.</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span></span></span>

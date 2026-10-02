@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">climateBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,10 +70,9 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>Many climate analyses require assigning each municipality to its
-closest meteorological station. The <code><a href="../reference/nearest_stations.html">nearest_stations()</a></code>
-function automates this process by identifying the nearest INMET station
-for every municipality.</p>
+<p>Many climate analyses need to assign each municipality to its closest
+weather station. <code><a href="../reference/nearest_stations.html">nearest_stations()</a></code> automates this by
+finding the nearest INMET station(s) for every municipality.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/kaiorb52/climateBR" class="external-link">climateBR</a></span><span class="op">)</span></span>
@@ -84,8 +83,10 @@ for every municipality.</p>
 <div class="section level2">
 <h2 id="preparing-the-data">Preparing the data<a class="anchor" aria-label="anchor" href="#preparing-the-data"></a>
 </h2>
-<p>The package includes datasets with Brazilian municipalities and INMET
-weather stations.</p>
+<p>The package includes datasets of Brazilian municipalities
+(<code>municipality</code>) and INMET weather stations
+(<code>inmet_stations</code>). This example uses the state of Pernambuco
+(PE).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"municipality"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"inmet_stations"</span><span class="op">)</span></span>
@@ -102,8 +103,8 @@ weather stations.</p>
 <div class="section level2">
 <h2 id="finding-the-nearest-station">Finding the nearest station<a class="anchor" aria-label="anchor" href="#finding-the-nearest-station"></a>
 </h2>
-<p>Use <code><a href="../reference/nearest_stations.html">nearest_stations()</a></code> to identify the closest station
-for each municipality.</p>
+<p>Use <code><a href="../reference/nearest_stations.html">nearest_stations()</a></code> with <code>n = 1</code> to find
+the closest station for each municipality.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mun_stations_pe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nearest_stations.html">nearest_stations</a></span><span class="op">(</span></span>
 <span>  municipality <span class="op">=</span> <span class="va">municipality_pe</span>,</span>
@@ -125,6 +126,9 @@ for each municipality.</p>
 <div class="section level2">
 <h2 id="municipalitystation-connections">Municipality–station connections<a class="anchor" aria-label="anchor" href="#municipalitystation-connections"></a>
 </h2>
+<p>The top map colors each municipality by its nearest station. The
+bottom map draws a line from each municipality centroid (×) to its
+nearest station (◆).</p>
 <p><img src="nearest_station_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="672"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

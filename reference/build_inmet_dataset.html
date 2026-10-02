@@ -11,7 +11,7 @@ Arrow/Parquet dataset optimized for fast querying with
 
     <a class="navbar-brand me-2" href="../index.html">climateBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,6 +56,8 @@ Arrow/Parquet dataset optimized for fast querying with
 <span>  <span class="va">output</span>,</span>
 <span>  years <span class="op">=</span> <span class="fl">2000</span><span class="op">:</span><span class="fl">2026</span>,</span>
 <span>  partitioning_by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ano"</span>, <span class="st">"codigo_wmo"</span><span class="op">)</span>,</span>
+<span>  region <span class="op">=</span> <span class="st">"all"</span>,</span>
+<span>  state <span class="op">=</span> <span class="st">"all"</span>,</span>
 <span>  progress <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -75,19 +77,30 @@ Arrow/Parquet dataset will be written.</p></dd>
 
 
 <dt id="arg-years">years<a class="anchor" aria-label="anchor" href="#arg-years"></a></dt>
-<dd><p>Vector. Group of years of the INMET database located in `input`
-to be transformed into an Arrow/Parquet dataset.</p></dd>
+<dd><p>Integer vector. Years of INMET data in `input` to convert
+into the Arrow/Parquet dataset. Defaults to `2000:2026`.</p></dd>
 
 
 <dt id="arg-partitioning-by">partitioning_by<a class="anchor" aria-label="anchor" href="#arg-partitioning-by"></a></dt>
-<dd><p>Vector. Variable(s) in the INMET database used to
-create the parquet folders.</p></dd>
+<dd><p>Character vector. Variable(s) used to partition
+the dataset; each variable creates one level of Parquet folders.
+Defaults to `c("ano", "codigo_wmo")`.</p></dd>
+
+
+<dt id="arg-region">region<a class="anchor" aria-label="anchor" href="#arg-region"></a></dt>
+<dd><p>Character vector. INMET region abbreviation(s) to filter
+(e.g. `"NE"`, `"SE"`). Defaults to `"all"`, which applies no filter.</p></dd>
+
+
+<dt id="arg-state">state<a class="anchor" aria-label="anchor" href="#arg-state"></a></dt>
+<dd><p>Character vector. Brazilian state abbreviation(s) (`uf`) to
+filter (e.g. `"BA"`, `"SP"`). Defaults to `"all"`, which applies no
+filter.</p></dd>
 
 
 <dt id="arg-progress">progress<a class="anchor" aria-label="anchor" href="#arg-progress"></a></dt>
-<dd><p>Logical.
-Should a progress bar be displayed while the INMET files are being processed?
-Defaults to `TRUE`. Set to `FALSE` to disable the progress bar.</p></dd>
+<dd><p>Logical. If `TRUE` (default), displays a progress bar
+while processing the INMET files.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -98,16 +111,15 @@ Defaults to `TRUE`. Set to `FALSE` to disable the progress bar.</p></dd>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>During the conversion, metadata are extracted from each file,
 column names are standardized, numeric variables are converted to
-numeric format, and the resulting dataset is partitioned by year
-(`ano`) and WMO station code (`codigo_wmo`).</p>
+numeric format, and the resulting dataset is partitioned (by default)
+by year (`ano`) and WMO station code (`codigo_wmo`).</p>
 
 <p>This function only needs to be executed once for a collection of
 downloaded INMET files. After the dataset has been created, it can
 be accessed efficiently using [read_inmet()] without repeatedly
 parsing the original CSV files.</p>
-<p>The resulting dataset is partitioned by year (`ano`) and weather
-station (`codigo_wmo`), allowing Arrow to read only the files
-required by a query.</p>
+<p>With the default partitioning by year (`ano`) and weather station
+(`codigo_wmo`), Arrow reads only the files required by a query.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -123,6 +135,7 @@ required by a query.</p>
 <span class="r-in"><span>  output <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"inmet_arrow"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  progress <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> No files found for region = all and state = all. Check if this is a valid combination.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>

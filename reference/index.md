@@ -15,7 +15,7 @@
 
 ## Datasets
 
-- [`municipality`](municipality.md) : Municipality Database
+- [`municipality`](municipality.md) : Brazilian municipalities
 - [`inmet_stations`](inmet_stations.md) : INMET rainfall monitoring
   stations
 - [`floods_rs`](floods_rs.md) : Rainfall during the 2024 Rio Grande do

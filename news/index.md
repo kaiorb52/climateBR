@@ -1,49 +1,52 @@
 # Changelog
 
+## climateBR 0.2.5
+
+Minor release: the README and vignettes were revised.
+
+- `rain_stations` — the `frist_year` column was renamed to `first_year`.
+
 ## climateBR 0.2.0
 
 CRAN release: 2026-08-19
 
-This new release introduces a new function, revamps the existing
-datasets with cleaner and more concise versions, and, most importantly,
-fixes several bugs related to downloading data and building the INMET
-database.
+This release adds a new function, replaces the existing datasets with
+cleaner and more concise versions, and fixes several bugs in downloading
+data and building the INMET dataset.
 
 ### New function
 
-- `nearest_stations` — helps users identify the distances between
-  municipalities and INMET stations and determine which stations are
-  closest to each municipality.
+- [`nearest_stations()`](../reference/nearest_stations.md) — computes
+  the distances between municipalities and INMET stations and returns
+  the stations closest to each municipality.
 
 ### Datasets
 
-- `inmet_stations` — this dataset is essentially a revamped version of
-  the previous `rain_stations` dataset. The older dataset contained
-  information on INMET stations available from 2000 to 2024, meaning
-  that the same station could appear multiple times across different
-  years. The new version uses the most recent station information
-  available through 2026 and contains one observation per station,
-  avoiding unnecessary repetition.
-- `mun_stations` — the previous `mun_stations_distance` dataset
-  contained the distances between municipalities and INMET stations for
-  every two-year period from 2008 to 2024. This new version contains the
-  distances calculated between municipalities and INMET stations using
-  the `inmet_stations` dataset and the `nearest_stations` function.
-- `municipality` — a brand-new dataset containing basic information on
-  Brazilian municipalities, including IBGE and TSE municipality codes,
-  state, and the latitude and longitude of each municipality’s centroid.
-- `floods_rs` — renamed the ‘id_who’ column to ‘code_wmo’.
+- `inmet_stations` — a revised version of `rain_stations`. The older
+  dataset listed INMET stations by year from 2000 to 2024, so the same
+  station appeared many times. The new version uses the most recent
+  station information (through 2026) and has one row per station.
+- `mun_stations` — `mun_stations_distance` contains
+  municipality-to-station distances for every other year from 2008
+  to 2024. The new `mun_stations` contains the distances computed with
+  [`nearest_stations()`](../reference/nearest_stations.md) and the
+  `inmet_stations` dataset.
+- `municipality` — a new dataset with basic information on Brazilian
+  municipalities: IBGE and TSE codes, state, and centroid latitude and
+  longitude.
+- `floods_rs` — the `id_who` column was renamed to `code_wmo`.
 
 ### Bugfixes and Quality of Life
 
-- Blank CSV files from 2026 could cause the `build_inmet_dataset`
-  process to fail. This bug has been fixed.
-- The `data` variable in the time series from later years were
-  categorized differently, which could result in an inconsistent
-  partitioned database when using `build_inmet_dataset` and cause errors
-  when running `read_inmet`.
-- New parameters `years` and `partitioning_by`, have been added to
-  `build_inmet_dataset`.
+- Fixed: blank CSV files from 2026 caused
+  [`build_inmet_dataset()`](../reference/build_inmet_dataset.md) to
+  fail.
+- Fixed: the `data` variable had a different type in recent years, which
+  produced an inconsistent partitioned dataset in
+  [`build_inmet_dataset()`](../reference/build_inmet_dataset.md) and
+  caused errors in [`read_inmet()`](../reference/read_inmet.md).
+- Added the `years` and `partitioning_by` parameters to
+  [`build_inmet_dataset()`](../reference/build_inmet_dataset.md).
 - Added a progress bar to the
   [`download_inmet()`](../reference/download_inmet.md) and
   [`build_inmet_dataset()`](../reference/build_inmet_dataset.md)
@@ -57,11 +60,11 @@ CRAN release: 2026-08-07
 
 - Functions:
 
-  - [`download_inmet()`](../reference/download_inmet.md) — download
+  - [`download_inmet()`](../reference/download_inmet.md) — downloads
     historical weather station data from INMET.
   - [`build_inmet_dataset()`](../reference/build_inmet_dataset.md) —
-    convert raw CSV files into partitioned Arrow/Parquet datasets.
-  - [`read_inmet()`](../reference/read_inmet.md) — efficient querying of
-    large INMET datasets.
-  - [`kriging_inmet()`](../reference/kriging_inmet.md) — ordinary
-    kriging interpolation.
+    converts raw CSV files into partitioned Arrow/Parquet datasets.
+  - [`read_inmet()`](../reference/read_inmet.md) — queries large INMET
+    datasets efficiently.
+  - [`kriging_inmet()`](../reference/kriging_inmet.md) — performs
+    ordinary kriging interpolation.

@@ -9,7 +9,7 @@ stations, returning the `n` nearest stations for every municipality."></head><bo
 
     <a class="navbar-brand me-2" href="../index.html">climateBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,13 +75,13 @@ Must include the columns `code_wmo`, `lat`, and `lon`.</p></dd>
 <dd><p>Brazilian state abbreviation.</p></dd>
 
   <dt>code_ibge7</dt>
-<dd><p>Municipality code.</p></dd>
+<dd><p>Seven-digit IBGE municipality code.</p></dd>
 
   <dt>code_wmo</dt>
-<dd><p>INMET station code.</p></dd>
+<dd><p>WMO identifier of the INMET station.</p></dd>
 
   <dt>distance</dt>
-<dd><p>Distance (in meters) between the municipality and station.</p></dd>
+<dd><p>Distance (in kilometers) between the municipality and the station.</p></dd>
 
   <dt>station_order</dt>
 <dd><p>Rank of the station by distance, where 1 indicates the nearest
@@ -104,9 +104,9 @@ Must include the columns `code_wmo`, `lat`, and `lon`.</p></dd>
 <span class="r-in"><span>  n <span class="op">=</span> <span class="fl">1</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># It is fine to include stations from other states. This is expected,</span></span></span>
-<span class="r-in"><span><span class="co"># as stations from neighboring states may be closer to municipalities</span></span></span>
-<span class="r-in"><span><span class="co"># near state borders.</span></span></span>
+<span class="r-in"><span><span class="co"># Stations from other states may be returned. This is expected:</span></span></span>
+<span class="r-in"><span><span class="co"># municipalities near state borders may be closer to a station in a</span></span></span>
+<span class="r-in"><span><span class="co"># neighboring state.</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">mun_stations2</span> <span class="op">&lt;-</span> <span class="fu">nearest_stations</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  municipality <span class="op">=</span> <span class="va">mun_rs</span>,</span></span>

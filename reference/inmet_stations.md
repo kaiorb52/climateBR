@@ -1,9 +1,8 @@
 # INMET rainfall monitoring stations
 
 Dataset containing metadata for rainfall monitoring stations operated by
-the Brazilian National Institute of Meteorology (INMET). Each row
-represents a specific meteorological station collect based on data from
-2000 to 2026.
+the Brazilian National Institute of Meteorology (INMET). Each row is one
+station, compiled from INMET data from 2000 to 2026.
 
 ## Usage
 
@@ -25,11 +24,11 @@ A data frame with 700 rows and 6 variables:
 
 - lat:
 
-  Station Latitude in decimal degrees (WGS84).
+  Station latitude in decimal degrees (WGS84).
 
 - lon:
 
-  Station Longitude in decimal degrees (WGS84).
+  Station longitude in decimal degrees (WGS84).
 
 - creation_year:
 
@@ -37,7 +36,8 @@ A data frame with 700 rows and 6 variables:
 
 - last_used_year:
 
-  Last year with available observations for the station.
+  Last year with available observations for the station. \`NA\` if the
+  station is still active.
 
 ## Source
 
@@ -45,9 +45,8 @@ Instituto Nacional de Meteorologia (INMET).
 
 ## Details
 
-The dataset includes station identifiers, location information, state,
-municipality codes, and the first and last years in which data are
-available for each station.
+The dataset includes the station identifier, state, location, and the
+first and last years with available data for each station.
 
 ## Examples
 

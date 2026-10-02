@@ -11,7 +11,7 @@ meteorological station in a specific year between 2000 and 2024."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">climateBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,7 +71,7 @@ meteorological station in a specific year between 2000 and 2024.</p>
   <dt>nome_formatado</dt>
 <dd><p>Standardized station name.</p></dd>
 
-  <dt>frist_year</dt>
+  <dt>first_year</dt>
 <dd><p>First year with available observations for the station.</p></dd>
 
   <dt>last_year</dt>
@@ -97,16 +97,16 @@ meteorological station in a specific year between 2000 and 2024.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The dataset includes station identifiers, location information, state,
-municipality codes, and the first and last years in which data are available
-for each station.</p>
+    <p>The dataset includes the station identifier, name, state, location,
+municipality codes, and the first and last years with available data for
+each station.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">rain_stations</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 11</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   uf    estacao   codigo_wmo ano   nome_formatado frist_year last_year id_ibge7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   uf    estacao   codigo_wmo ano   nome_formatado first_year last_year id_ibge7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> RO    ARIQUEMES A940       2024  ariquemes      2008       2024       1<span style="text-decoration: underline;">100</span>023</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> RO    ARIQUEMES A940       2023  ariquemes      2008       2024       1<span style="text-decoration: underline;">100</span>023</span>

@@ -57,8 +57,8 @@ making it suitable for working with large datasets.
 
 Setting \`collect = TRUE\` loads the selected observations into memory.
 This may require a large amount of RAM when reading many years or
-stations simultaneously. Consider filtering by year, station, or
-variables before collecting the data.
+stations at once. Filter by year, station, or variable before collecting
+the data.
 
 ## See also
 
@@ -69,8 +69,8 @@ variables before collecting the data.
 ``` r
 # Requires INMET data downloaded with download_inmet() and
 # processed into an Arrow dataset with build_inmet_dataset().
-# See the vignette "climateBR: An R package to download meteorological data from Brazil".
-# for the complete workflow of this function.
+# See the vignette "climateBR: An R package to download meteorological
+# data from Brazil" for the complete workflow.
 
 if (FALSE) { # \dontrun{
 

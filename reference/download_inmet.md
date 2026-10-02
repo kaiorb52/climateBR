@@ -23,9 +23,8 @@ download_inmet(years = 2008, unzip_to = tempdir(), progress = TRUE)
 
 - progress:
 
-  Logical. Should a progress bar be displayed while the INMET files are
-  being processed? Defaults to \`TRUE\`. Set to \`FALSE\` to disable the
-  progress bar.
+  Logical. If \`TRUE\` (default), displays a progress bar while
+  downloading the INMET files.
 
 ## Value
 

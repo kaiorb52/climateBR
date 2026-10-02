@@ -2,31 +2,33 @@
 
 ## Introduction
 
-The main goal of the package is to facilitate research on climate shocks
-by providing functions that support the different stages of working with
-climate data. The `download_inmet` function downloads ZIP files
-containing data from INMET weather stations from the Brazilian
-government’s website. `build_inmet_dataset` helps users create a
-partitioned database from INMET data, while `read_inmet` provides access
-to this database. Functions such as `nearest_station` and
-`kriging_inmet` connect municipalities to the INMET database, allowing
-researchers to match climate data with information from other sources,
-such as IBGE or TSE. This makes it possible to conduct correlations and
-other forms of statistical analysis.
+**climateBR** supports research on climate shocks by providing functions
+for each stage of working with climate data:
 
-This vignette demonstrates the central functions for working with
-**climateBR**. I hope that you enjoy the ride.
+- [`download_inmet()`](../reference/download_inmet.md) downloads the ZIP
+  files with INMET weather station data from the Brazilian government’s
+  website.
+- [`build_inmet_dataset()`](../reference/build_inmet_dataset.md)
+  converts the raw files into a partitioned dataset.
+- [`read_inmet()`](../reference/read_inmet.md) reads and filters that
+  dataset.
+- [`nearest_stations()`](../reference/nearest_stations.md) and
+  [`kriging_inmet()`](../reference/kriging_inmet.md) link municipalities
+  to INMET stations, so climate data can be merged with other sources,
+  such as IBGE or TSE, for statistical analysis.
+
+This vignette demonstrates the core workflow of **climateBR**.
 
 ### Installation
 
-#### Stable Build
+#### Stable version (CRAN)
 
 ``` r
 
 install.packages("climateBR")
 ```
 
-#### Dev. Build
+#### Development version
 
 ``` r
 
@@ -37,7 +39,7 @@ remotes::install_github("kaiorb52/climateBR")
 
 ### Download data
 
-The first step is downloading the original files published by INMET.
+First, download the original files published by INMET.
 
 ``` r
 
@@ -53,9 +55,8 @@ download_inmet(
 
 ### Build the dataset
 
-Once the files have been downloaded, they can be converted into a
-partitioned Arrow dataset. This only needs to be done once and allows
-much faster access for subsequent analyses.
+Next, convert the downloaded files into a partitioned Arrow dataset.
+This only needs to be done once and makes later analyses much faster.
 
 ``` r
 
@@ -71,10 +72,9 @@ The [`read_inmet()`](../reference/read_inmet.md) function reads the
 partitioned dataset and can return either an Arrow Dataset
 (`collect = FALSE`) or an in-memory data frame (`collect = TRUE`).
 
-Keeping `collect = FALSE` is generally recommended when working with
-large time spans, as the full INMET database contains millions of
-observations. Loading all records into memory with `collect = TRUE` may
-exceed the available RAM and cause R to explode.
+Keep `collect = FALSE` when working with long time spans: the full INMET
+dataset contains millions of observations, and loading all of them into
+memory with `collect = TRUE` may exceed the available RAM and crash R.
 
 ``` r
 
@@ -85,11 +85,9 @@ rainfall <- read_inmet(
 )
 ```
 
-Depending on the selected years, it is also good practice to inspect and
-clean the observations before analysis. In some historical INMET files,
-missing values are encoded as `-9999` instead of `NA`, so these values
-should be converted to proper missing values before computing summaries
-or running models.
+Inspect and clean the observations before analysis. In some historical
+INMET files, missing values are coded as `-9999` instead of `NA`;
+convert them to `NA` before computing summaries or fitting models.
 
 ### How to Cite
 
@@ -102,7 +100,7 @@ citation("climateBR")
 #> To cite package 'climateBR' in publications use:
 #> 
 #>   Bárbara K (2026). _climateBR: Download Rainfall, Temperature, and
-#>   Wind Data from Brazil_. R package version 0.2.0,
+#>   Wind Data from Brazil_. R package version 0.2.5,
 #>   <https://github.com/kaiorb52/climateBR>.
 #> 
 #> A BibTeX entry for LaTeX users is
@@ -111,7 +109,7 @@ citation("climateBR")
 #>     title = {climateBR: Download Rainfall, Temperature, and Wind Data from Brazil},
 #>     author = {Kaio Bárbara},
 #>     year = {2026},
-#>     note = {R package version 0.2.0},
+#>     note = {R package version 0.2.5},
 #>     url = {https://github.com/kaiorb52/climateBR},
 #>   }
 ```
