@@ -40,7 +40,7 @@ The downloaded files can subsequently be processed with
 [build_inmet_dataset()].
 }
 \examples{
-\donttest{
+\dontrun{
 
 ## Download a single year
 download_inmet(
