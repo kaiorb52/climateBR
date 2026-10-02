@@ -2,7 +2,17 @@
 
 [![CRAN status](https://www.r-pkg.org/badges/version/climateBR)](https://CRAN.R-project.org/package=climateBR) [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/climateBR)](https://cran.r-project.org/package=climateBR)
 
-**climateBR** helps social scientists study climate shocks in Brazil. It provides tools to download, process, and analyze historical meteorological data from the Brazilian National Institute of Meteorology (INMET).
+**climateBR** is designed to help scientists study climate shocks in Brazil. It provides tools to download, process, and analyze historical meteorological data, along with records of natural disasters and fire hotspots that can be linked to the weather data.
+
+## Data sources
+
+| Source | Data | Coverage | Function |
+|--------|------|----------|----------|
+| [INMET](https://portal.inmet.gov.br) — National Institute of Meteorology | Hourly observations from automatic weather stations (rainfall, temperature, wind, humidity, pressure, and radiation) | 2000–present | `download_inmet()`, `build_inmet_dataset()`, `read_inmet()` |
+| [MIDR](https://atlasdigital.mdr.gov.br) — Ministry of Integration and Regional Development (*Atlas Digital de Desastres no Brasil*, with CEPED/UFSC) | Natural disaster records registered in S2iD, classified by COBRADE, with human, material, and environmental damage and economic losses | 1991–present | `download_disasters()` |
+| [INPE](https://data.inpe.br/queimadas/) — National Institute for Space Research (*Programa Queimadas*) | Satellite-detected fire hotspots, with days without rain, precipitation, fire risk, and fire radiative power | 1998–present | `download_firespots()` |
+
+Disaster records can be joined to the bundled `municipality` and `mun_stations` datasets through the 7-digit IBGE code (`Cod_IBGE_Mun` ↔ `code_ibge7`), which links them to the nearest INMET stations. Fire hotspots do not carry IBGE codes; link them through their coordinates (e.g. a spatial join with municipality boundaries) or by municipality and state names.
 
 ## Installation
 
@@ -131,6 +141,26 @@ ggplot() +
 ```
 
 ![](man/figures/map_temp_rj.png)
+
+## Example: Natural disasters
+
+``` r
+library(climateBR)
+library(dplyr)
+
+# Disaster records from the Atlas Digital de Desastres no Brasil (MIDR)
+disasters <- download_disasters(dest_dir = "data/raw/midr")
+```
+
+## Example: Fire hotspots
+
+``` r
+library(climateBR)
+library(dplyr)
+
+# Fire hotspots from INPE's Programa Queimadas
+firespots <- download_firespots(years = 2024, dest_dir = "data/raw/inpe")
+```
 
 ## License
 

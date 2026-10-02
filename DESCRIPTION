@@ -1,6 +1,6 @@
 Package: climateBR
 Type: Package
-Title: Download Rainfall, Temperature, and Wind Data from Brazil
+Title: Download Weather, Natural Disaster, and Fire Hotspot Data from Brazil
 Version: 0.2.5
 Authors@R: c(
     person(
@@ -13,7 +13,12 @@ Authors@R: c(
   )
 Description: Provides functions to download and import meteorological
      data from Brazil's National Institute of Meteorology (INMET)
-     <https://portal.inmet.gov.br>.
+     <https://portal.inmet.gov.br>, natural disaster records from the
+     Brazilian Atlas of Natural Disasters maintained by the Ministry of
+     Integration and Regional Development (MIDR)
+     <https://atlasdigital.mdr.gov.br>, and satellite-detected fire
+     hotspots from the National Institute for Space Research (INPE)
+     <https://data.inpe.br/queimadas/>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

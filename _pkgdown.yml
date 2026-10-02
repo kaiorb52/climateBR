@@ -10,6 +10,8 @@ reference:
     - read_inmet
     - kriging_inmet
     - nearest_stations
+    - download_disasters
+    - download_firespots
 - title: Datasets
   contents:
     - municipality
