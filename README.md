@@ -9,6 +9,7 @@
 | Source | Data | Coverage | Function |
 |--------|------|----------|----------|
 | [INMET](https://portal.inmet.gov.br) — National Institute of Meteorology | Hourly observations from automatic weather stations (rainfall, temperature, wind, humidity, pressure, and radiation) | 2000–present | `download_inmet()`, `build_inmet_dataset()`, `read_inmet()` |
+| [APAC](https://www.apac.pe.gov.br) — Pernambuco's Water and Climate Agency | Monthly tables of daily rainfall from rain gauges in Pernambuco, by mesoregion | 1961–present | `download_apac()` |
 | [MIDR](https://atlasdigital.mdr.gov.br) — Ministry of Integration and Regional Development (*Atlas Digital de Desastres no Brasil*, with CEPED/UFSC) | Natural disaster records registered in S2iD, classified by COBRADE, with human, material, and environmental damage and economic losses | 1991–present | `download_disasters()` |
 | [INPE](https://data.inpe.br/queimadas/) — National Institute for Space Research (*Programa Queimadas*) | Satellite-detected fire hotspots, with days without rain, precipitation, fire risk, and fire radiative power | 1998–present | `download_firespots()` |
 
@@ -142,14 +143,24 @@ ggplot() +
 
 ![](man/figures/map_temp_rj.png)
 
+## Example: Rainfall in Pernambuco (APAC)
+
+``` r
+library(climateBR)
+library(dplyr)
+
+apac <- download_apac(years = 2026)
+
+```
+
 ## Example: Natural disasters
 
 ``` r
 library(climateBR)
 library(dplyr)
 
-# Disaster records from the Atlas Digital de Desastres no Brasil (MIDR)
-disasters <- download_disasters(dest_dir = "data/raw/midr")
+disasters <- download_disasters()
+
 ```
 
 ## Example: Fire hotspots
@@ -158,8 +169,8 @@ disasters <- download_disasters(dest_dir = "data/raw/midr")
 library(climateBR)
 library(dplyr)
 
-# Fire hotspots from INPE's Programa Queimadas
-firespots <- download_firespots(years = 2024, dest_dir = "data/raw/inpe")
+firespots <- download_firespots(years = 2025)
+
 ```
 
 ## License
@@ -170,7 +181,7 @@ This project is licensed under the MIT License.
 
 To cite package ‘climateBR’ in publications use:
 
--   Bárbara K (2026). *climateBR: Download Rainfall, Temperature, and Wind Data from Brazil*. R package version 0.2.5, <https://CRAN.R-project.org/package=climateBR>.
+-   Bárbara K (2026). *climateBR: Download Rainfall, Temperature, and Wind Data from Brazil*. R package version 0.3.0, <https://CRAN.R-project.org/package=climateBR>.
 
 ```
 
@@ -178,7 +189,7 @@ To cite package ‘climateBR’ in publications use:
   title = {climateBR: Download Rainfall, Temperature, and Wind Data from Brazil},
   author = {Kaio Bárbara},
   year = {2026},
-  note = {R package version 0.2.5},
+  note = {R package version 0.3.0},
   url = {https://CRAN.R-project.org/package=climateBR},
 }
 ```

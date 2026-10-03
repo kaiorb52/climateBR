@@ -4,6 +4,7 @@ library(climateBR)
 
 ###################
 ###################
+# INMET RJ 2026
 
 download_inmet(
   years = 2026,
@@ -72,4 +73,76 @@ map_temp_rj <- ggplot() +
   )
 
 ggsave(plot = map_temp_rj, filename = "man/figures/map_temp_rj.png", height = 7, width = 10)
+
+###################
+###################
+# MDIR
+
+options(scipen = 999)
+
+mdir <- download_disasters(
+  dest_dir = "tests/mdir/" 
+)
+
+mdir |> 
+  mutate(
+    ano = stringi::stri_extract(Data_Evento, regex = "\\d{4}$")
+  ) |> 
+  group_by(ano) |> 
+  summarise(
+    n = n(),
+    DH_afetados = sum(DH_MORTOS) + sum(DH_DESAPARECIDOS) + sum(DH_DESABRIGADOS) + sum(DH_DESALOJADOS)
+  ) |> 
+  ggplot(aes(x = as.numeric(ano), y = DH_afetados)) +
+  geom_point(
+    shape = 18,
+    size  = 3
+  ) +
+  geom_line() +
+  geom_smooth(se = FALSE, color = "firebrick2") +
+  #scale_y_continuous( = scales::number()) +
+  scale_x_continuous(breaks = seq(1990, 2025, 5)) +
+  labs(
+    x = NULL,
+    y = "N. de Diretamente Afetados"
+  ) +
+  theme_classic()
+
+###################
+###################
+# APAC 2026
+
+download_apac(
+  years   = 2026,
+  dest_dir = "tests/apac/"
+)
+
+apac <- list.files("tests/apac/", full.names = TRUE)
+
+list_apac <- list()
+for(x in apac){
+  list_apac[[x]] <- data.table::fread(x, encoding = "Latin-1", na.strings = "-")
+}
+
+library(tidyverse)
+
+list_apac |> 
+  bind_rows() |> 
+  janitor::clean_names() |> 
+  pivot_longer(`x01`:`x31`, names_to = "dia") |> 
+  filter(value != "-") |> 
+  mutate(
+    acumulado = stringi::stri_replace(acumulado, regex = "[,]", ".") |> 
+      as.numeric(),
+    value = stringi::stri_replace(value, regex = "[,]", ".") |> 
+      as.numeric(),
+    dia = stringi::stri_replace(dia, regex = "^x", "") |> 
+      as.numeric()
+  ) |> 
+  filter(m_aas_ano == "mai/2026", dia == 1)  |> 
+  mutate(
+    p_mes = value/acumulado * 100
+  ) |> 
+  View()
+
 

@@ -12,6 +12,7 @@ reference:
     - nearest_stations
     - download_disasters
     - download_firespots
+    - download_apac
 - title: Datasets
   contents:
     - municipality
