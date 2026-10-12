@@ -43,7 +43,7 @@
 #' [download_inmet()], [read_inmet()]
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'
 #' build_inmet_dataset(
 #'   input = file.path(tempdir(), "inmet_raw"),

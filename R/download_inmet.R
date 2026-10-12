@@ -33,7 +33,7 @@
 #' [build_inmet_dataset()], [read_inmet()]
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'
 #' ## Download a single year
 #' download_inmet(

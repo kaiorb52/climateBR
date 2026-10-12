@@ -62,7 +62,7 @@ With the default partitioning by year (`ano`) and weather station
 (`codigo_wmo`), Arrow reads only the files required by a query.
 }
 \examples{
-\donttest{
+\dontrun{
 
 build_inmet_dataset(
   input = file.path(tempdir(), "inmet_raw"),
