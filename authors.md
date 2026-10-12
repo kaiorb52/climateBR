@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/kaiorb52/climateBR/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/kaiorb52/climateBR/blob/v0.2.5/DESCRIPTION)
 
 Bárbara K (2026). *climateBR: Download Rainfall, Temperature, and Wind
 Data from Brazil*. R package version 0.2.5,
