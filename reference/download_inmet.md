@@ -52,21 +52,19 @@ The downloaded files can subsequently be processed with
 ## Examples
 
 ``` r
-# \donttest{
+if (FALSE) { # \dontrun{
 
 ## Download a single year
 download_inmet(
   years = 2000,
   unzip_to = tempdir()
 )
-#>   |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%
 
 ## Download multiple years
 download_inmet(
   years = 2004:2006,
   unzip_to = tempdir()
 )
-#>   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%
 
-# }
+} # }
 ```

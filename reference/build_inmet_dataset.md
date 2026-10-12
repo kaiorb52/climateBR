@@ -82,14 +82,13 @@ With the default partitioning by year (\`ano\`) and weather station
 ## Examples
 
 ``` r
-# \donttest{
+if (FALSE) { # \dontrun{
 
 build_inmet_dataset(
   input = file.path(tempdir(), "inmet_raw"),
   output = file.path(tempdir(), "inmet_arrow"),
   progress = FALSE
 )
-#> Error: No files found for region = all and state = all. Check if this is a valid combination.
 
-# }
+} # }
 ```
