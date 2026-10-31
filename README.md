@@ -1,8 +1,12 @@
-# climateBR: Download Rainfall, Temperature, and Wind Data from Brazil
+# climateBR: Weather, Natural Disaster, and Fire Hotspot Data from Brazil
 
 [![CRAN status](https://www.r-pkg.org/badges/version/climateBR)](https://CRAN.R-project.org/package=climateBR) [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/climateBR)](https://cran.r-project.org/package=climateBR)
 
-**climateBR** is designed to help scientists study climate shocks in Brazil. It provides tools to download, process, and analyze historical meteorological data, along with records of natural disasters and fire hotspots that can be linked to the weather data.
+<img src="man/figures/logo.svg" align="right" height="140" alt="" hspace="15" />
+
+<p align="justify">
+<strong>climateBR</strong> is designed to help scientists study climate shocks in Brazil. It provides tools to download, process, and analyze historical meteorological data, along with records of natural disasters and fire hotspots that can be linked to the weather data.
+</p>
 
 ## Data sources
 
