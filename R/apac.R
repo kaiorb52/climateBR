@@ -37,14 +37,19 @@
 #' being queried again. Queries that fail raise a warning and are skipped.
 #'
 #' Column names are kept as distributed by the source (e.g. `Código`,
-#' `Posto`, `Mês/Ano`), plus `cod_mesorregiao` and `ano`.
+#' `Posto`, `Mês/Ano`), plus `cod_mesorregiao` and `ano`. The daily
+#' rainfall columns (`01` to `31`) and `Acumulado` are returned as numeric
+#' (mm): APAC's decimal comma is converted to a decimal point and missing
+#' values, shown as `"-"` on the portal, are returned as `NA`. The CSV
+#' files saved to `dest_dir` keep the raw values as distributed by APAC.
 #'
 #' This function is based on a script from the Nimbus Platform project
 #' (<https://github.com/ProjetoNimbuss/nimbus-platform>).
 #'
 #' @return
 #' A data frame with one row per rain gauge and month, combining all
-#' requested `years` and `mesoregions`.
+#' requested `years` and `mesoregions`, with numeric rainfall columns
+#' (`01` to `31` and `Acumulado`).
 #'
 #' @seealso
 #' [download_inmet()], [download_firespots()], [download_disasters()]
@@ -128,7 +133,9 @@ download_apac <- function(years = 2025, mesoregions = 2601:2605, dest_dir = NULL
       }
 
       if (check_file(csv_path)) {
-        list_df[[glue("{meso}_{y}")]] <- data.table::fread(csv_path, encoding = "UTF-8")
+        list_df[[glue("{meso}_{y}")]] <- data.table::fread(
+          csv_path, encoding = "UTF-8", colClasses = "character"
+        )
       }
 
       if (progress == TRUE){
@@ -143,8 +150,35 @@ download_apac <- function(years = 2025, mesoregions = 2601:2605, dest_dir = NULL
 
   return(
     list_df |>
-      dplyr::bind_rows()
+      dplyr::bind_rows() |>
+      apac_clean()
   )
+}
+
+# Converts APAC's raw text columns to proper types: rainfall columns
+# ("01".."31", "Acumulado") to numeric, with "-" as NA and decimal comma.
+apac_clean <- function(df) {
+
+  if (nrow(df) == 0) {
+    return(as.data.frame(df))
+  }
+
+  to_num <- function(x) {
+    x <- trimws(x)
+    x[x %in% c("-", "")] <- NA
+    x <- gsub(".", "", x, fixed = TRUE)
+    suppressWarnings(as.numeric(sub(",", ".", x, fixed = TRUE)))
+  }
+
+  rain_cols <- intersect(c(sprintf("%02d", 1:31), "Acumulado"), names(df))
+  int_cols <- intersect(c("C\u00f3digo", "cod_mesorregiao", "ano"), names(df))
+
+  df |>
+    dplyr::mutate(
+      dplyr::across(dplyr::all_of(rain_cols), to_num),
+      dplyr::across(dplyr::all_of(int_cols), as.integer)
+    ) |>
+    as.data.frame()
 }
 
 # Queries one mesoregion/year on APAC's portal; returns an empty data frame on timeout.

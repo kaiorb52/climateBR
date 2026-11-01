@@ -125,12 +125,10 @@ data("apac_stations")
 
 apac_flood <- apac |>
   filter(`Mês/Ano` == "mai/2026") |>
-  transmute(
-    code_apac     = as.character(`Código`),
-    chuva_maio_01 = na_if(`01`, "-") |>
-      stringi::stri_replace_all(regex = "[,]", replacement = ".") |>
-      as.numeric()
+  mutate(
+    code_apac     = as.character(`Código`)
   ) |>
+  select(code_apac, chuva_maio_01 = `01`) |> 
   filter(!is.na(chuva_maio_01)) |>
   inner_join(
     apac_stations |> select(code_apac, station_name, code_ibge7, lat, lon),

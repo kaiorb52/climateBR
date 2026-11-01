@@ -32,7 +32,8 @@ while querying APAC.}
 }
 \value{
 A data frame with one row per rain gauge and month, combining all
-requested `years` and `mesoregions`.
+requested `years` and `mesoregions`, with numeric rainfall columns
+(`01` to `31` and `Acumulado`).
 }
 \description{
 Downloads the historical monthly rainfall records published by
@@ -54,7 +55,11 @@ Files that already exist in `dest_dir` are read from disk instead of
 being queried again. Queries that fail raise a warning and are skipped.
 
 Column names are kept as distributed by the source (e.g. `Código`,
-`Posto`, `Mês/Ano`), plus `cod_mesorregiao` and `ano`.
+`Posto`, `Mês/Ano`), plus `cod_mesorregiao` and `ano`. The daily
+rainfall columns (`01` to `31`) and `Acumulado` are returned as numeric
+(mm): APAC's decimal comma is converted to a decimal point and missing
+values, shown as `"-"` on the portal, are returned as `NA`. The CSV
+files saved to `dest_dir` keep the raw values as distributed by APAC.
 
 This function is based on a script from the Nimbus Platform project
 (<https://github.com/ProjetoNimbuss/nimbus-platform>).
