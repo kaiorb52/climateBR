@@ -12,12 +12,20 @@
   interpolation of INMET observations
 - [`nearest_stations()`](nearest_stations.md) : Find the nearest INMET
   stations for each municipality
+- [`download_disasters()`](download_disasters.md) : Download natural
+  disaster records from the Brazilian Atlas of Natural Disasters
+- [`download_firespots()`](download_firespots.md) : Download fire
+  hotspot data from INPE's Programa Queimadas
+- [`download_apac()`](download_apac.md) : Download historical rainfall
+  data from APAC (Pernambuco)
 
 ## Datasets
 
 - [`municipality`](municipality.md) : Brazilian municipalities
 - [`inmet_stations`](inmet_stations.md) : INMET rainfall monitoring
   stations
+- [`apac_stations`](apac_stations.md) : APAC rainfall and weather
+  monitoring stations (Pernambuco)
 - [`floods_rs`](floods_rs.md) : Rainfall during the 2024 Rio Grande do
   Sul floods
 - [`mun_stations`](mun_stations.md) : Nearest INMET Weather Stations for

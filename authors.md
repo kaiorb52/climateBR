@@ -8,16 +8,16 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/kaiorb52/climateBR/blob/v0.2.5/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/kaiorb52/climateBR/blob/main/DESCRIPTION)
 
-Bárbara K (2026). *climateBR: Download Rainfall, Temperature, and Wind
-Data from Brazil*. R package version 0.2.5,
+Bárbara K (2026). *climateBR: Download Weather, Natural Disaster, and
+Fire Hotspot Data from Brazil*. R package version 0.3.0,
 <https://github.com/kaiorb52/climateBR>.
 
     @Manual{,
-      title = {climateBR: Download Rainfall, Temperature, and Wind Data from Brazil},
+      title = {climateBR: Download Weather, Natural Disaster, and Fire Hotspot Data from Brazil},
       author = {Kaio Bárbara},
       year = {2026},
-      note = {R package version 0.2.5},
+      note = {R package version 0.3.0},
       url = {https://github.com/kaiorb52/climateBR},
     }

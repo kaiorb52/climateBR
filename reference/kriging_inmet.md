@@ -7,7 +7,7 @@ geometries, such as Brazilian municipalities.
 ## Usage
 
 ``` r
-kriging_inmet(stations_df, mun_geo, var = "total_rainfall")
+kriging_inmet(stations_df, mun_geo, var = "total_rainfall", range = NULL)
 ```
 
 ## Arguments
@@ -28,6 +28,13 @@ kriging_inmet(stations_df, mun_geo, var = "total_rainfall")
   Character. Name of the numeric variable to interpolate. Defaults to
   \`"total_rainfall"\`.
 
+- range:
+
+  Numeric. Initial value for the range of the spherical variogram model,
+  in the distance units used by gstat: kilometers for geographic CRS
+  (e.g. EPSG:4326) and map units (usually meters) for projected CRS. If
+  \`NULL\` (default), 500 km is used in either case.
+
 ## Value
 
 An \`sf\` object containing the geometries from \`mun_geo\` together
@@ -42,10 +49,16 @@ The empirical variogram is estimated with \[gstat::variogram()\] and a
 spherical variogram model is fitted using \[gstat::fit.variogram()\].
 Ordinary kriging is then performed with \[gstat::krige()\].
 
-Both \`stations_df\` and \`mun_geo\` must use the same projected
-coordinate reference system (CRS). Using geographic coordinates
-(longitude/latitude) is not recommended for kriging because distance
-calculations are performed in map units.
+Both geographic (longitude/latitude, e.g. EPSG:4326) and projected
+coordinate reference systems (CRS) are supported. With a geographic CRS,
+gstat computes great-circle distances in kilometers; with a projected
+CRS, distances are in map units (usually meters). If \`mun_geo\` uses a
+different CRS from \`stations_df\`, it is transformed to the CRS of
+\`stations_df\`.
+
+Polygon geometries in \`mun_geo\` trigger block kriging, which is much
+slower. For municipality-level predictions, consider using centroids
+(\[sf::st_centroid()\]).
 
 ## See also
 

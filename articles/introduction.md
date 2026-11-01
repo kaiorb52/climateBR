@@ -19,6 +19,17 @@ for each stage of working with climate data:
 
 This vignette demonstrates the core workflow of **climateBR**.
 
+The package originated as a project for the Data Analysis course in the
+Graduate Program in Political Science at the Federal University of
+Pernambuco (UFPE). The INMET functions and the procedure for linking
+municipalities to their nearest weather stations were developed for the
+preprint:
+
+> Barbara, K. R., & Leite, D. A. (2026). *A chuva diminui o
+> comparecimento eleitoral? Evidências de eleições nacionais e
+> municipais no Brasil* \[Preprint\]. Zenodo.
+> <https://doi.org/10.5281/zenodo.23618763>
+
 ### Installation
 
 #### Stable version (CRAN)
@@ -99,17 +110,18 @@ as follows:
 citation("climateBR")
 #> To cite package 'climateBR' in publications use:
 #> 
-#>   Bárbara K (2026). _climateBR: Download Rainfall, Temperature, and
-#>   Wind Data from Brazil_. R package version 0.2.5,
+#>   Bárbara K (2026). _climateBR: Download Weather, Natural Disaster, and
+#>   Fire Hotspot Data from Brazil_. R package version 0.3.0,
 #>   <https://github.com/kaiorb52/climateBR>.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
 #>   @Manual{,
-#>     title = {climateBR: Download Rainfall, Temperature, and Wind Data from Brazil},
+#>     title = {climateBR: Download Weather, Natural Disaster, and Fire Hotspot Data from
+#> Brazil},
 #>     author = {Kaio Bárbara},
 #>     year = {2026},
-#>     note = {R package version 0.2.5},
+#>     note = {R package version 0.3.0},
 #>     url = {https://github.com/kaiorb52/climateBR},
 #>   }
 ```
