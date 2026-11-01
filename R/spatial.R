@@ -102,6 +102,10 @@ nearest_stations <- function(
 #'   predictions will be generated.
 #' @param var Character. Name of the numeric variable to interpolate.
 #'   Defaults to `"total_rainfall"`.
+#' @param range Numeric. Initial value for the range of the spherical
+#'   variogram model, in the distance units used by gstat: kilometers for
+#'   geographic CRS (e.g. EPSG:4326) and map units (usually meters) for
+#'   projected CRS. If `NULL` (default), 500 km is used in either case.
 #'
 #' @details
 #' The empirical variogram is estimated with
@@ -109,10 +113,15 @@ nearest_stations <- function(
 #' using [gstat::fit.variogram()]. Ordinary kriging is then performed
 #' with [gstat::krige()].
 #'
-#' Both `stations_df` and `mun_geo` must use the same projected
-#' coordinate reference system (CRS). Using geographic coordinates
-#' (longitude/latitude) is not recommended for kriging because distance
-#' calculations are performed in map units.
+#' Both geographic (longitude/latitude, e.g. EPSG:4326) and projected
+#' coordinate reference systems (CRS) are supported. With a geographic CRS,
+#' gstat computes great-circle distances in kilometers; with a projected CRS,
+#' distances are in map units (usually meters). If `mun_geo` uses a different
+#' CRS from `stations_df`, it is transformed to the CRS of `stations_df`.
+#'
+#' Polygon geometries in `mun_geo` trigger block kriging, which is much slower.
+#' For municipality-level predictions, consider using centroids
+#' ([sf::st_centroid()]).
 #'
 #' @return
 #' An `sf` object containing the geometries from `mun_geo` together with
@@ -148,7 +157,17 @@ nearest_stations <- function(
 #' @importFrom dplyr pull
 #' @export
 
-kriging_inmet <- function(stations_df, mun_geo, var = 'total_rainfall'){
+kriging_inmet <- function(stations_df, mun_geo, var = 'total_rainfall',
+                          range = NULL){
+
+  if (sf::st_crs(stations_df) != sf::st_crs(mun_geo)) {
+    mun_geo <- sf::st_transform(mun_geo, sf::st_crs(stations_df))
+  }
+
+  if (is.null(range)) {
+    longlat <- isTRUE(sf::st_is_longlat(stations_df))
+    range <- if (longlat) 500 else 500000
+  }
 
   f_ <- paste0(var, " ~ 1") |>
     as.formula()
@@ -160,7 +179,7 @@ kriging_inmet <- function(stations_df, mun_geo, var = 'total_rainfall'){
     model = vgm(
       psill  = var(stations_df |> sf::st_drop_geometry() |> pull(var), na.rm = TRUE),
       model  = "Sph",
-      range  = 500000,
+      range  = range,
       nugget = 0
     )
   )
