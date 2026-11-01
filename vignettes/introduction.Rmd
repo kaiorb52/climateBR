@@ -25,6 +25,10 @@ knitr::opts_chunk$set(
 
 This vignette demonstrates the core workflow of **climateBR**.
 
+The package originated as a project for the Data Analysis course in the Graduate Program in Political Science at the Federal University of Pernambuco (UFPE). The INMET functions and the procedure for linking municipalities to their nearest weather stations were developed for the preprint:
+
+> Barbara, K. R., & Leite, D. A. (2026). *A chuva diminui o comparecimento eleitoral? Evidências de eleições nacionais e municipais no Brasil* [Preprint]. Zenodo. <https://doi.org/10.5281/zenodo.23618763>
+
 ## Installation
 
 ### Stable version (CRAN)

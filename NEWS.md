@@ -1,3 +1,11 @@
+# climateBR 0.3.0
+
+## New functions
+
+-   `download_disasters()` — downloads the consolidated database of the *Atlas Digital de Desastres no Brasil* (MIDR, with CEPED/UFSC): natural disaster records registered in S2iD between 1991 and 2025, linked to municipalities through the 7-digit IBGE code.
+-   `download_firespots()` — downloads the annual fire hotspot records (*focos de queimada*) detected by satellite and published by INPE's *Programa Queimadas*, available from 1998 onwards.
+-   `download_apac()` — downloads the historical monthly rainfall records of Pernambuco's Water and Climate Agency (APAC), by mesoregion, available from 1961 onwards.
+
 # climateBR 0.2.5
 
 Minor release: the README and vignettes were revised.

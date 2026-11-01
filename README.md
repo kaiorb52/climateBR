@@ -1,8 +1,23 @@
-# climateBR: Download Rainfall, Temperature, and Wind Data from Brazil
+# climateBR: Weather, Natural Disaster, and Fire Hotspot Data from Brazil
 
 [![CRAN status](https://www.r-pkg.org/badges/version/climateBR)](https://CRAN.R-project.org/package=climateBR) [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/climateBR)](https://cran.r-project.org/package=climateBR)
 
-**climateBR** helps social scientists study climate shocks in Brazil. It provides tools to download, process, and analyze historical meteorological data from the Brazilian National Institute of Meteorology (INMET).
+<img src="man/figures/logo.svg" align="right" height="140" alt="" hspace="15" />
+
+<p align="justify">
+<strong>climateBR</strong> is designed to help scientists study climate shocks in Brazil. It provides tools to download, process, and analyze historical meteorological data, along with records of natural disasters and fire hotspots that can be linked to the weather data.
+</p>
+
+## Data sources
+
+| Source | Data | Coverage | Function |
+|--------|------|----------|----------|
+| [INMET](https://portal.inmet.gov.br) — National Institute of Meteorology | Hourly observations from automatic weather stations (rainfall, temperature, wind, humidity, pressure, and radiation) | 2000–present | `download_inmet()`, `build_inmet_dataset()`, `read_inmet()` |
+| [APAC](https://www.apac.pe.gov.br) — Pernambuco's Water and Climate Agency | Monthly tables of daily rainfall from rain gauges in Pernambuco, by mesoregion | 1961–present | `download_apac()` |
+| [MIDR](https://atlasdigital.mdr.gov.br) — Ministry of Integration and Regional Development (*Atlas Digital de Desastres no Brasil*, with CEPED/UFSC) | Natural disaster records registered in S2iD, classified by COBRADE, with human, material, and environmental damage and economic losses | 1991–present | `download_disasters()` |
+| [INPE](https://data.inpe.br/queimadas/) — National Institute for Space Research (*Programa Queimadas*) | Satellite-detected fire hotspots, with days without rain, precipitation, fire risk, and fire radiative power | 1998–present | `download_firespots()` |
+
+Disaster records can be joined to the bundled `municipality` and `mun_stations` datasets through the 7-digit IBGE code (`Cod_IBGE_Mun` ↔ `code_ibge7`), which links them to the nearest INMET stations. Fire hotspots do not carry IBGE codes; link them through their coordinates (e.g. a spatial join with municipality boundaries) or by municipality and state names.
 
 ## Installation
 
@@ -132,6 +147,71 @@ ggplot() +
 
 ![](man/figures/map_temp_rj.png)
 
+## Example: Rainfall in Pernambuco (APAC)
+
+``` r
+library(climateBR)
+library(tidyverse)
+library(sf)
+
+apac <- download_apac(years = 2026)
+data("apac_stations")
+
+apac_flood <- apac |>
+  filter(`Mês/Ano` == "mai/2026") |>
+  mutate(
+    code_apac     = as.character(`Código`)
+  ) |>
+  select(code_apac, chuva_maio_01 = `01`) |> 
+  filter(!is.na(chuva_maio_01)) |>
+  inner_join(
+    apac_stations |> select(code_apac, station_name, code_ibge7, lat, lon),
+    by = "code_apac"
+  ) |>
+  filter(!is.na(lat), code_ibge7 != 2605459) |>
+  distinct(lat, lon, .keep_all = TRUE)
+
+apac_flood_sf <- apac_flood |>
+  st_as_sf(coords = c("lon", "lat"), crs = 4326)
+
+mun_pe <- geobr::read_municipality(code_muni = "PE", year = 2024) |>
+  filter(code_muni != 2605459) |>
+  select(code_muni, geom) |>
+  st_transform(crs = 4326)
+
+krig_pe <- kriging_inmet(
+  stations_df = apac_flood_sf,
+  mun_geo     = st_centroid(mun_pe),
+  var         = "chuva_maio_01"
+)
+
+mun_rain_pe <- mun_pe |>
+  mutate(chuva_krig = pmax(krig_pe$var1.pred, 0))
+
+ggplot() +
+  geom_sf(data = mun_rain_pe, aes(fill = chuva_krig), color = "grey70", linewidth = 0.1) +
+  scale_fill_distiller(palette = "RdYlGn", direction = 1) +
+  labs(fill = "Rainfall (mm)\nMay 1, 2026") +
+  theme_void() +
+  theme(
+    legend.position = "bottom",
+    legend.key.width = unit(1.5, "cm"),
+    plot.background = element_rect(fill = "white", color = NA)
+  )
+```
+
+![](man/figures/map_rain_pe.png)
+
+## Example: Natural disasters
+
+``` r
+library(climateBR)
+library(dplyr)
+
+disasters <- download_disasters()
+
+```
+
 ## License
 
 This project is licensed under the MIT License.
@@ -140,7 +220,7 @@ This project is licensed under the MIT License.
 
 To cite package ‘climateBR’ in publications use:
 
--   Bárbara K (2026). *climateBR: Download Rainfall, Temperature, and Wind Data from Brazil*. R package version 0.2.5, <https://CRAN.R-project.org/package=climateBR>.
+-   Bárbara K (2026). *climateBR: Download Rainfall, Temperature, and Wind Data from Brazil*. R package version 0.3.0, <https://CRAN.R-project.org/package=climateBR>.
 
 ```
 
@@ -148,7 +228,7 @@ To cite package ‘climateBR’ in publications use:
   title = {climateBR: Download Rainfall, Temperature, and Wind Data from Brazil},
   author = {Kaio Bárbara},
   year = {2026},
-  note = {R package version 0.2.5},
+  note = {R package version 0.3.0},
   url = {https://CRAN.R-project.org/package=climateBR},
 }
 ```

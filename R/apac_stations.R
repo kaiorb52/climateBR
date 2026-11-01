@@ -1,0 +1,53 @@
+#' APAC rainfall and weather monitoring stations (Pernambuco)
+#'
+#' Dataset containing metadata for the monitoring stations listed by
+#' Pernambuco's Water and Climate Agency (APAC). It includes rain gauges and
+#' meteorological, hydrological, and agrometeorological stations operated by
+#' APAC and partner institutions (Cemaden, ANA, INMET, INPE, and IPA). Each row
+#' is one station.
+#'
+#' @format A tibble with 1,306 rows and 14 variables:
+#' \describe{
+#'   \item{code_gmmc}{Station code used by APAC. It usually starts with the
+#'   IBGE municipality code and ends with a letter for the station type, but
+#'   this pattern is not guaranteed. A few codes are shared by different
+#'   stations.}
+#'   \item{station_name}{Station name as registered by APAC.}
+#'   \item{station_type}{Type of station: `"Conventional rain gauge"`,
+#'   `"Automatic rain gauge"`, `"Meteorological station"`,
+#'   `"Hydrological station"`, `"Agrometeorological station"`, or
+#'   `"Acqua station"`.}
+#'   \item{status}{Station status at the time of collection: `"active"`,
+#'   `"inactive"`, or `"maintenance"`.}
+#'   \item{operator}{Institution that operates the station.}
+#'   \item{owner}{Institution that owns the station.}
+#'   \item{state_station}{Brazilian state abbreviation (always `"PE"`).}
+#'   \item{code_ibge7}{Seven-digit IBGE code of the municipality where the
+#'   station is located.}
+#'   \item{name_muni}{Name of the municipality where the station is located.}
+#'   \item{location}{Installation site (e.g. a school, a district, or a
+#'   public building).}
+#'   \item{manufacturer}{Equipment manufacturer.}
+#'   \item{model}{Equipment model.}
+#'   \item{lat}{Station latitude in decimal degrees (WGS84).}
+#'   \item{lon}{Station longitude in decimal degrees (WGS84).}
+#' }
+#'
+#' @details
+#' The station list was collected from the APAC API on 2026-11-01 and reflects
+#' the network status on that date. Municipality codes were matched by
+#' municipality name. Coordinates that fall outside Pernambuco (registration
+#' errors in the source) were set to `NA`.
+#'
+#' Rainfall series published by APAC can be downloaded with
+#' [download_apac()].
+#'
+#' @source Agência Pernambucana de Águas e Clima (APAC),
+#'   <https://www.apac.pe.gov.br>.
+#'
+#' @examples
+#' data(apac_stations)
+#' head(apac_stations)
+#' table(apac_stations$station_type, apac_stations$status)
+#'
+"apac_stations"
