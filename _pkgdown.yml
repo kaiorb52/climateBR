@@ -17,6 +17,7 @@ reference:
   contents:
     - municipality
     - inmet_stations
+    - apac_stations
     - floods_rs
     - mun_stations
     - rain_stations
