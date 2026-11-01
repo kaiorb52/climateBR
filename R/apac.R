@@ -1,3 +1,6 @@
+# The APAC download functions in this file are based on a script from the
+# Nimbus Platform project: https://github.com/ProjetoNimbuss/nimbus-platform
+
 #' Download historical rainfall data from APAC (Pernambuco)
 #'
 #' Downloads the historical monthly rainfall records published by
@@ -35,6 +38,9 @@
 #'
 #' Column names are kept as distributed by the source (e.g. `Código`,
 #' `Posto`, `Mês/Ano`), plus `cod_mesorregiao` and `ano`.
+#'
+#' This function is based on a script from the Nimbus Platform project
+#' (<https://github.com/ProjetoNimbuss/nimbus-platform>).
 #'
 #' @return
 #' A data frame with one row per rain gauge and month, combining all
