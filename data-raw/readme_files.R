@@ -112,37 +112,59 @@ mdir |>
 ###################
 # APAC 2026
 
-download_apac(
-  years   = 2026,
+library(tidyverse)
+library(climateBR)
+library(sf)
+
+apac <- download_apac(
+  years    = 2026,
   dest_dir = "tests/apac/"
 )
 
-apac <- list.files("tests/apac/", full.names = TRUE)
+data("apac_stations")
 
-list_apac <- list()
-for(x in apac){
-  list_apac[[x]] <- data.table::fread(x, encoding = "Latin-1", na.strings = "-")
-}
-
-library(tidyverse)
-
-list_apac |> 
-  bind_rows() |> 
-  janitor::clean_names() |> 
-  pivot_longer(`x01`:`x31`, names_to = "dia") |> 
-  filter(value != "-") |> 
-  mutate(
-    acumulado = stringi::stri_replace(acumulado, regex = "[,]", ".") |> 
-      as.numeric(),
-    value = stringi::stri_replace(value, regex = "[,]", ".") |> 
-      as.numeric(),
-    dia = stringi::stri_replace(dia, regex = "^x", "") |> 
+apac_flood <- apac |>
+  filter(`Mês/Ano` == "mai/2026") |>
+  transmute(
+    code_apac     = as.character(`Código`),
+    chuva_maio_01 = na_if(`01`, "-") |>
+      stringi::stri_replace_all(regex = "[,]", replacement = ".") |>
       as.numeric()
-  ) |> 
-  filter(m_aas_ano == "mai/2026", dia == 1)  |> 
-  mutate(
-    p_mes = value/acumulado * 100
-  ) |> 
-  View()
+  ) |>
+  filter(!is.na(chuva_maio_01)) |>
+  inner_join(
+    apac_stations |> select(code_apac, station_name, code_ibge7, lat, lon),
+    by = "code_apac"
+  ) |>
+  filter(!is.na(lat), code_ibge7 != 2605459) |>
+  distinct(lat, lon, .keep_all = TRUE)
 
+apac_flood_sf <- apac_flood |>
+  st_as_sf(coords = c("lon", "lat"), crs = 4326)
 
+mun_pe <- geobr::read_municipality(code_muni = "PE", year = 2024) |>
+  filter(code_muni != 2605459) |>
+  select(code_muni, geom) |>
+  st_transform(crs = 4326)
+
+krig_pe <- kriging_inmet(
+  stations_df = apac_flood_sf,
+  mun_geo     = st_centroid(mun_pe),
+  var         = "chuva_maio_01"
+)
+
+mun_rain_pe <- mun_pe |>
+  mutate(chuva_krig = pmax(krig_pe$var1.pred, 0))
+
+map_chuva_pe <- ggplot() +
+  geom_sf(data = mun_rain_pe, aes(fill = chuva_krig), color = "grey70", linewidth = 0.1) +
+  scale_fill_distiller(palette = "RdYlGn", direction = 1) +
+  labs(fill = "Rainfall (mm)\nMay 1, 2026") +
+  theme_void() +
+  theme(
+    legend.position = "bottom",
+    legend.key.width = unit(1.5, "cm"),
+    plot.background = element_rect(fill = "white", color = NA)
+  )
+
+ggsave(plot = map_chuva_pe, filename = "man/figures/map_rain_pe.png", height = 5.2, width = 10, dpi = 300)
