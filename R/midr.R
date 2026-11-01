@@ -66,18 +66,17 @@ download_disasters <- function(dest_dir = NULL) {
   # https://atlasdigital.mdr.gov.br/paginas/institucional.xhtml
   # https://atlasdigital.mdr.gov.br/paginas/downloads.xhtml
 
-  x  <- "https://atlasdigital.mdr.gov.br/arquivos/2026/BD_Atlas_1991_2025_v1.1_2026.08.06_Consolidado.csv"
+  x  <- "https://zenodo.org/records/23857290/files/BD_Atlas_1991_2025_v1.1_2026.08.06_Consolidado.rds?download=1"
 
   if (!is.null(dest_dir)) {
     dir.create(dest_dir, recursive = TRUE, showWarnings = FALSE)
-    csv_path <- file.path(dest_dir, basename(x))
+    arq_path <- file.path(dest_dir, basename(x))
 
-    if (!check_file(csv_path)) {
-      download.file(x, destfile = csv_path, mode = "wb")
+    if (!check_file(arq_path)) {
+      download.file(x, destfile = arq_path, mode = "wb")
     }
-    x <- csv_path
+    x <- arq_path
   }
-
-  data.table::fread(x, encoding = "Latin-1")
+  readRDS(x)
 
 }
