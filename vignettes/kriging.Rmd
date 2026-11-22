@@ -42,19 +42,19 @@ flood event together with municipality geometries.
 ```{r import data, warning = FALSE, message = FALSE}
 data("floods_rs")
 data("mun_stations")
+```
 
-# Alternative to: geobr::read_municipality(year = 2024)
-tmp <- tempfile(fileext = ".rda")
-on.exit(unlink(tmp), add = TRUE)
+```{r read geobr, eval = FALSE}
+mun_24 <- geobr::read_municipality(year = 2024)
+```
 
-download.file(
-  "https://github.com/kaiorb52/dados_municipais/raw/main/mun_24.rda",
-  destfile = tmp,
-  mode = "wb"
+```{r, include = FALSE}
+
+mun_24 <- tryCatch(
+  geobr::read_municipality(year = 2024, showProgress = FALSE),
+  error = function(e) NULL
 )
-
-load(tmp)
-
+knitr::opts_chunk$set(eval = inherits(mun_24, "sf"))
 ```
 
 The station observations are converted to an `sf` object and projected to

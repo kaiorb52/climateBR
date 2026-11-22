@@ -10,5 +10,6 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+.github/*
 tests/*
 paper/*

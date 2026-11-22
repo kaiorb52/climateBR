@@ -61,23 +61,18 @@ head(mun_stations_pe)
 
 # Municipality–station connections
 
-The top map colors each municipality by its nearest station. The bottom map draws a line from each municipality centroid (×) to its nearest station (◆).
+The top map colors each municipality by its nearest station. The bottom map draws a line from each municipality centroid to its nearest station.
+
+```{r, include = FALSE}
+mun_24 <- tryCatch(
+  geobr::read_municipality(code_muni = "PE", year = 2024, showProgress = FALSE),
+  error = function(e) NULL
+)
+knitr::opts_chunk$set(eval = inherits(mun_24, "sf"))
+```
 
 ```{r, echo=FALSE, warning = FALSE, message = FALSE}
-tmp <- tempfile(fileext = ".rda")
-on.exit(unlink(tmp), add = TRUE)
-
-# Alternative to: geobr::read_municipality(year = 2024)
-download.file(
-  "https://github.com/kaiorb52/dados_municipais/raw/main/mun_24.rda",
-  destfile = tmp,
-  mode = "wb"
-)
-
-load(tmp)
-
 mun_24_pe <- mun_24 |>
-  filter(abbrev_state == "PE") |>
   select(code_muni, geom)
 
 mun_stations_pe2 <- mun_24_pe |>
