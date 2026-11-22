@@ -33,14 +33,18 @@ extracted into \`unzip_to\`, and the extracted files are stored on disk.
 
 ## Details
 
+Source: National Institute of Meteorology (INMET). More information:
+\<https://portal.inmet.gov.br/dadoshistoricos\>.
+
 INMET provides historical observations dating back to 2000. However,
 only a small number of weather stations were operating in the early
 years of the dataset. For most applications, we recommend using data
 from \*\*2008 onwards\*\*, when the monitoring network became
 substantially more comprehensive.
 
-Existing directories containing extracted files are skipped to avoid
-downloading the same data multiple times.
+Years already extracted in \`unzip_to\` are skipped. If a year is
+incomplete or corrupted (e.g. after an interrupted download), delete its
+folder and run the function again.
 
 The downloaded files can subsequently be processed with
 \[build_inmet_dataset()\].

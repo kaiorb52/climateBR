@@ -5,12 +5,10 @@ status](https://www.r-pkg.org/badges/version/climateBR)](https://CRAN.R-project.
 [![Total
 downloads](https://cranlogs.r-pkg.org/badges/grand-total/climateBR)](https://cran.r-project.org/package=climateBR)
 
-![](reference/figures/logo.svg)
-
 **climateBR** is designed to help scientists study climate shocks in
-Brazil. It provides tools to download, process, and analyze historical
-meteorological data, along with records of natural disasters and fire
-hotspots that can be linked to the weather data.
+Brazil. It provides tools to download and process meteorological data
+such as rainfall and temperature, along with records of natural
+disasters and fire hotspots that can be linked to the weather data.
 
 ## Data sources
 
@@ -225,13 +223,41 @@ ggplot() +
 
 ## Example: Natural disasters
 
+[`download_disasters()`](reference/download_disasters.md) returns every
+natural disaster record from the *Atlas Digital de Desastres no Brasil*.
+The example below sums the people directly affected (deaths, injured,
+homeless, and displaced) in each year.
+
 ``` r
 
 library(climateBR)
-library(dplyr)
+library(tidyverse)
 
-disasters <- download_disasters()
+natural_disasters <- download_disasters()
+
+options(scipen = 999)
+
+natural_disasters |> 
+  mutate(
+    total_afetados = (
+      DH_MORTOS + DH_FERIDOS + DH_DESABRIGADOS + DH_DESALOJADOS
+    ),
+    ano = stringi::stri_extract(Data_Evento, regex = "\\d{4}$") |> 
+      as.numeric()
+  ) |> 
+  filter(ano < 2026) |> 
+  group_by(ano) |> 
+  summarise(
+    total_afetados = sum(total_afetados)
+  ) |> 
+  ggplot(aes(x = ano, y = total_afetados)) +
+  geom_point() +
+  geom_line() +
+  labs(x = NULL, y = "People directly affected") +
+  theme_minimal()
 ```
+
+![](reference/figures/natural_disasters.png)
 
 ## License
 

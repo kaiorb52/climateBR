@@ -64,10 +64,9 @@ registered by a municipality in the Integrated Disaster Information System
 
 
 <dl><dt id="arg-dest-dir">dest_dir<a class="anchor" aria-label="anchor" href="#arg-dest-dir"></a></dt>
-<dd><p>Character. Directory where the CSV file is saved
+<dd><p>Character. Directory where the file is saved
 (e.g. `"./data/raw/"`). It is created if it does not exist. If `NULL`
-(default), the data are read directly from the MIDR server and nothing
-is written to disk.</p></dd>
+(default), a temporary directory is used.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -76,37 +75,44 @@ is written to disk.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The data are read with [data.table::fread()] and the download timeout is
-temporarily raised to at least 600 seconds. When `dest_dir` is set, the
-CSV is saved there with its original name and, if it already exists, it
-is read from disk instead of being downloaded again. Otherwise, the data
-are read directly from the MIDR server, so an internet connection is
-required.</p>
-<p>Records are identified by `Protocolo_S2iD` and linked to municipalities
-through `Cod_IBGE_Mun` (7-digit IBGE code), which can be joined with
-[municipality] (`code_ibge7`) and [mun_stations] to match disasters with
-INMET weather stations. Events are classified by the Brazilian Disaster
-Classification and Codification (COBRADE; `Cod_Cobrade`,
-`descricao_tipologia`, `grupo_de_desastre`).</p>
-<p>Column-name prefixes group the reported impacts:</p><dl><dt>`DH_`</dt>
-<dd><p>Human damages (deaths, injured, homeless, displaced, etc.).</p></dd>
+    <p>Source: Ministry of Integration and Regional Development (MIDR) and
+CEPED/UFSC, *Atlas Digital de Desastres no Brasil*. More information:
+&lt;https://atlasdigital.mdr.gov.br&gt;.</p>
+<p>Each record has the municipality (`Nome_Municipio`, `Sigla_UF` and
+`Cod_IBGE_Mun`, the 7-digit IBGE code that joins with [municipality] and
+[mun_stations]), the event date (`Data_Evento`, `dd/mm/yyyy`) and the
+disaster type according to COBRADE (`Cod_Cobrade`, `descricao_tipologia`
+and `grupo_de_desastre`, e.g. climatological, hydrological or
+meteorological). `Status` tells whether the federal government
+recognized the emergency or public calamity (`"Reconhecido"`) or the
+event was only registered (`"Registro"`).</p>
+<p>The impacts reported by the municipality are grouped by column prefix:</p><dl><dt>`DH_`</dt>
+<dd><p>Human damages: number of dead (`DH_MORTOS`), injured
+    (`DH_FERIDOS`), sick (`DH_ENFERMOS`), homeless (`DH_DESABRIGADOS`),
+    displaced (`DH_DESALOJADOS`) and missing (`DH_DESAPARECIDOS`).</p></dd>
 
   <dt>`DM_`</dt>
-<dd><p>Material damages (damaged/destroyed housing, health,
-    education and infrastructure units, and their values in BRL).</p></dd>
+<dd><p>Material damages: damaged and destroyed housing, health,
+    education and infrastructure units, and their value in BRL
+    (e.g. `DM_Uni Habita Destruidas`, `DM_total_danos_materiais`).</p></dd>
 
   <dt>`DA_`</dt>
-<dd><p>Environmental damages.</p></dd>
+<dd><p>Environmental damages, such as water, air and soil
+    pollution, as a share of the affected population.</p></dd>
 
   <dt>`PEPL_`</dt>
-<dd><p>Public economic losses, in BRL.</p></dd>
+<dd><p>Public economic losses in BRL, by sector (e.g. health
+    care, water supply, energy), with the total in `PEPL_total_publico`.</p></dd>
 
   <dt>`PEPR_`</dt>
-<dd><p>Private economic losses, in BRL.</p></dd>
+<dd><p>Private economic losses in BRL (agriculture, livestock,
+    industry, commerce and services), with the total in
+    `PEPR_total_privado`.</p></dd>
 
 
-</dl><p>Column names and date formats (`dd/mm/yyyy`) are kept as distributed by
-the source. More information: &lt;https://atlasdigital.mdr.gov.br&gt;.</p>
+</dl><p>If the file already exists in `dest_dir`, it is read from disk instead of
+being downloaded again. If it is corrupted (e.g. after an interrupted
+download), delete it and run the function again.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -119,7 +125,7 @@ the source. More information: &lt;https://atlasdigital.mdr.gov.br&gt;.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">disasters</span> <span class="op">&lt;-</span> <span class="fu">download_disasters</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Keep the CSV file locally</span></span></span>
+<span class="r-in"><span><span class="co">## Keep the file locally</span></span></span>
 <span class="r-in"><span><span class="va">disasters</span> <span class="op">&lt;-</span> <span class="fu">download_disasters</span><span class="op">(</span>dest_dir <span class="op">=</span> <span class="st">"./data/raw/"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>

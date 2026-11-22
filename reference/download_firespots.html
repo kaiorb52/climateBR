@@ -67,10 +67,9 @@ Historical data are available from 1998 onwards. The default is
 
 
 <dt id="arg-dest-dir">dest_dir<a class="anchor" aria-label="anchor" href="#arg-dest-dir"></a></dt>
-<dd><p>Character. Directory where the extracted CSV files are
-saved (e.g. `"./data/raw/"`). It is created if it does not exist. If
-`NULL` (default), files are extracted to a temporary directory and
-discarded at the end of the R session.</p></dd>
+<dd><p>Character. Directory where the files are saved
+(e.g. `"./data/raw/"`). It is created if it does not exist. If `NULL`
+(default), a temporary directory is used.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -80,16 +79,10 @@ discarded at the end of the R session.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>For each year, a ZIP file is downloaded from INPE's open data server
-(&lt;https://data.inpe.br/queimadas/portal/dados-abertos/&gt;), extracted into
-`dest_dir` (or a temporary directory) and read with [data.table::fread()].
-The yearly tables are then stacked into a single data frame.</p>
-<p>When `dest_dir` is set, years whose CSV
-(`focos_br_todos-sats_year.csv`) already exists in `dest_dir` are read
-from disk instead of being downloaded again, so an internet connection is
-only required for missing years. A message lists the years that are read
-from disk.</p>
-<p>Column names are kept as distributed by the source. The main columns are
+    <p>Source: National Institute for Space Research (INPE), *Programa
+Queimadas*. More information:
+&lt;https://data.inpe.br/queimadas/portal/dados-abertos/&gt;.</p>
+<p>The main columns are
 the hotspot coordinates (`latitude`, `longitude`), the detection time
 (`data_pas`), the satellite (`satelite`), the location (`pais`, `estado`,
 `municipio`, `bioma`), and fire-related indicators such as
@@ -98,13 +91,11 @@ the hotspot coordinates (`latitude`, `longitude`), the detection time
 codes; to link hotspots to [municipality] or [mun_stations], use the
 coordinates (e.g. a spatial join with municipality boundaries) or the
 municipality and state names.</p>
-<p>Although records are available since 1998, the structure of the files
-has changed over time: newer years may include columns that do not exist
-in older ones, and column names or types may differ. When several years
-are requested, tables are combined with [dplyr::bind_rows()], so columns
-missing in a given year are filled with `NA`, and incompatible column
-types across years may raise an error. The columns described above refer
-to recent years; check the data before combining long periods.</p>
+<p>The structure of the files has changed over time, so older years may lack
+some columns (filled with `NA` when several years are combined).</p>
+<p>Years whose file already exists in `dest_dir` are read from disk instead
+of being downloaded again. If a file is corrupted (e.g. after an
+interrupted download), delete it and run the function again.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -121,7 +112,7 @@ to recent years; check the data before combining long periods.</p>
 <span class="r-in"><span><span class="co">## Download multiple years</span></span></span>
 <span class="r-in"><span><span class="va">firespots</span> <span class="op">&lt;-</span> <span class="fu">download_firespots</span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2022</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Keep the CSV files locally</span></span></span>
+<span class="r-in"><span><span class="co">## Keep the files locally</span></span></span>
 <span class="r-in"><span><span class="va">firespots</span> <span class="op">&lt;-</span> <span class="fu">download_firespots</span><span class="op">(</span>years <span class="op">=</span> <span class="fl">2024</span>, dest_dir <span class="op">=</span> <span class="st">"./data/raw/"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>

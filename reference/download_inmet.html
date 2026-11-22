@@ -80,13 +80,16 @@ extracted into `unzip_to`, and the extracted files are stored on disk.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>INMET provides historical observations dating back to 2000. However,
+    <p>Source: National Institute of Meteorology (INMET). More information:
+&lt;https://portal.inmet.gov.br/dadoshistoricos&gt;.</p>
+<p>INMET provides historical observations dating back to 2000. However,
 only a small number of weather stations were operating in the early
 years of the dataset. For most applications, we recommend using data
 from **2008 onwards**, when the monitoring network became substantially
 more comprehensive.</p>
-<p>Existing directories containing extracted files are skipped to avoid
-downloading the same data multiple times.</p>
+<p>Years already extracted in `unzip_to` are skipped. If a year is
+incomplete or corrupted (e.g. after an interrupted download), delete its
+folder and run the function again.</p>
 <p>The downloaded files can subsequently be processed with
 [build_inmet_dataset()].</p>
     </div>

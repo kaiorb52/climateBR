@@ -39,14 +39,27 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="climatebr-030">climateBR 0.3.0<a class="anchor" aria-label="anchor" href="#climatebr-030"></a></h2>
+<p>This release expands climateBR beyond INMET: it adds three new data sources (APAC, MIDR and INPE), a new dataset of APAC monitoring stations, and improvements to <code><a href="../reference/kriging_inmet.html">kriging_inmet()</a></code>. The package documetation were updated to reflect the broader scope.</p>
 <div class="section level3">
 <h3 id="new-functions-0-3-0">New functions<a class="anchor" aria-label="anchor" href="#new-functions-0-3-0"></a></h3>
 <ul><li>
-<code><a href="../reference/download_disasters.html">download_disasters()</a></code> — downloads the consolidated database of the <em>Atlas Digital de Desastres no Brasil</em> (MIDR, with CEPED/UFSC): natural disaster records registered in S2iD between 1991 and 2025, linked to municipalities through the 7-digit IBGE code.</li>
+<code><a href="../reference/download_disasters.html">download_disasters()</a></code> — downloads the consolidated database of the <em>Atlas Digital de Desastres no Brasil</em> (MIDR, with CEPED/UFSC): natural disaster records registered in S2iD between 1991 and 2025, linked to municipalities through the 7-digit IBGE code. The data are served from a Zenodo mirror as an <code>.rds</code> file instead of the CSV on the MIDR portal.</li>
 <li>
 <code><a href="../reference/download_firespots.html">download_firespots()</a></code> — downloads the annual fire hotspot records (<em>focos de queimada</em>) detected by satellite and published by INPE’s <em>Programa Queimadas</em>, available from 1998 onwards.</li>
 <li>
-<code><a href="../reference/download_apac.html">download_apac()</a></code> — downloads the historical monthly rainfall records of Pernambuco’s Water and Climate Agency (APAC), by mesoregion, available from 1961 onwards.</li>
+<code><a href="../reference/download_apac.html">download_apac()</a></code> — downloads the historical monthly rainfall records of Pernambuco’s Water and Climate Agency (APAC), by mesoregion, available from 1961 onwards. The daily rainfall columns (<code>01</code> to <code>31</code>) and <code>Acumulado</code> are returned as numeric (mm), with APAC’s decimal comma converted and <code>"-"</code> returned as <code>NA</code>. This function requires the suggested packages <code>chromote</code> and <code>rvest</code> and a local installation of Google Chrome or Chromium. It is based on a script from the <a href="https://github.com/ProjetoNimbuss/nimbus-platform" class="external-link">Nimbus Platform</a> project.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="datasets-0-3-0">Datasets<a class="anchor" aria-label="anchor" href="#datasets-0-3-0"></a></h3>
+<ul><li>
+<code>apac_stations</code> — a new dataset with metadata for the 1,306 monitoring stations listed by APAC in Pernambuco (conventional and automatic rain gauges, and meteorological, hydrological and agrometeorological stations), including type, status, operator, municipality (IBGE code) and coordinates.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="improvements-0-3-0">Improvements<a class="anchor" aria-label="anchor" href="#improvements-0-3-0"></a></h3>
+<ul><li>
+<code><a href="../reference/kriging_inmet.html">kriging_inmet()</a></code> gains a <code>range</code> argument that sets the initial range of the spherical variogram. By default it uses 500 km for both geographic and projected CRS. Before, the range was fixed at 500,000 map units, which was wrong for longitude/latitude data.</li>
+<li>
+<code><a href="../reference/kriging_inmet.html">kriging_inmet()</a></code> now supports geographic CRS (e.g. EPSG:4326), and <code>mun_geo</code> is transformed automatically to the CRS of <code>stations_df</code> when the two differ.</li>
 </ul></div>
 </div>
     <div class="section level2">
