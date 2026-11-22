@@ -10,3 +10,5 @@ docs
 tests/
 *.csv
 *.parquet
+paper/
+nw_version.R
