@@ -6,38 +6,44 @@
 #' registered by a municipality in the Integrated Disaster Information System
 #' (S2iD) between 1991 and 2025.
 #'
-#' @param dest_dir Character. Directory where the CSV file is saved
+#' @param dest_dir Character. Directory where the file is saved
 #'   (e.g. `"./data/raw/"`). It is created if it does not exist. If `NULL`
-#'   (default), the data are read directly from the MIDR server and nothing
-#'   is written to disk.
+#'   (default), a temporary directory is used.
 #'
 #' @details
-#' The data are read with [data.table::fread()] and the download timeout is
-#' temporarily raised to at least 600 seconds. When `dest_dir` is set, the
-#' CSV is saved there with its original name and, if it already exists, it
-#' is read from disk instead of being downloaded again. Otherwise, the data
-#' are read directly from the MIDR server, so an internet connection is
-#' required.
+#' Source: Ministry of Integration and Regional Development (MIDR) and
+#' CEPED/UFSC, *Atlas Digital de Desastres no Brasil*. More information:
+#' <https://atlasdigital.mdr.gov.br>.
 #'
-#' Records are identified by `Protocolo_S2iD` and linked to municipalities
-#' through `Cod_IBGE_Mun` (7-digit IBGE code), which can be joined with
-#' [municipality] (`code_ibge7`) and [mun_stations] to match disasters with
-#' INMET weather stations. Events are classified by the Brazilian Disaster
-#' Classification and Codification (COBRADE; `Cod_Cobrade`,
-#' `descricao_tipologia`, `grupo_de_desastre`).
+#' Each record has the municipality (`Nome_Municipio`, `Sigla_UF` and
+#' `Cod_IBGE_Mun`, the 7-digit IBGE code that joins with [municipality] and
+#' [mun_stations]), the event date (`Data_Evento`, `dd/mm/yyyy`) and the
+#' disaster type according to COBRADE (`Cod_Cobrade`, `descricao_tipologia`
+#' and `grupo_de_desastre`, e.g. climatological, hydrological or
+#' meteorological). `Status` tells whether the federal government
+#' recognized the emergency or public calamity (`"Reconhecido"`) or the
+#' event was only registered (`"Registro"`).
 #'
-#' Column-name prefixes group the reported impacts:
+#' The impacts reported by the municipality are grouped by column prefix:
 #' \describe{
-#'   \item{`DH_`}{Human damages (deaths, injured, homeless, displaced, etc.).}
-#'   \item{`DM_`}{Material damages (damaged/destroyed housing, health,
-#'     education and infrastructure units, and their values in BRL).}
-#'   \item{`DA_`}{Environmental damages.}
-#'   \item{`PEPL_`}{Public economic losses, in BRL.}
-#'   \item{`PEPR_`}{Private economic losses, in BRL.}
+#'   \item{`DH_`}{Human damages: number of dead (`DH_MORTOS`), injured
+#'     (`DH_FERIDOS`), sick (`DH_ENFERMOS`), homeless (`DH_DESABRIGADOS`),
+#'     displaced (`DH_DESALOJADOS`) and missing (`DH_DESAPARECIDOS`).}
+#'   \item{`DM_`}{Material damages: damaged and destroyed housing, health,
+#'     education and infrastructure units, and their value in BRL
+#'     (e.g. `DM_Uni Habita Destruidas`, `DM_total_danos_materiais`).}
+#'   \item{`DA_`}{Environmental damages, such as water, air and soil
+#'     pollution, as a share of the affected population.}
+#'   \item{`PEPL_`}{Public economic losses in BRL, by sector (e.g. health
+#'     care, water supply, energy), with the total in `PEPL_total_publico`.}
+#'   \item{`PEPR_`}{Private economic losses in BRL (agriculture, livestock,
+#'     industry, commerce and services), with the total in
+#'     `PEPR_total_privado`.}
 #' }
 #'
-#' Column names and date formats (`dd/mm/yyyy`) are kept as distributed by
-#' the source. More information: <https://atlasdigital.mdr.gov.br>.
+#' If the file already exists in `dest_dir`, it is read from disk instead of
+#' being downloaded again. If it is corrupted (e.g. after an interrupted
+#' download), delete it and run the function again.
 #'
 #' @return
 #' A `data.table` with one row per disaster record.
@@ -50,7 +56,7 @@
 #'
 #' disasters <- download_disasters()
 #'
-#' ## Keep the CSV file locally
+#' ## Keep the file locally
 #' disasters <- download_disasters(dest_dir = "./data/raw/")
 #'
 #' }
@@ -66,17 +72,28 @@ download_disasters <- function(dest_dir = NULL) {
   # https://atlasdigital.mdr.gov.br/paginas/institucional.xhtml
   # https://atlasdigital.mdr.gov.br/paginas/downloads.xhtml
 
-  x  <- "https://zenodo.org/records/23857290/files/BD_Atlas_1991_2025_v1.1_2026.08.06_Consolidado.rds?download=1"
+  x  <- "https://zenodo.org/records/23857290/files/BD_Atlas_1991_2025_v1.1_2026.08.06_Consolidado.rds"
 
-  if (!is.null(dest_dir)) {
-    dir.create(dest_dir, recursive = TRUE, showWarnings = FALSE)
-    arq_path <- file.path(dest_dir, basename(x))
-
-    if (!check_file(arq_path)) {
-      download.file(x, destfile = arq_path, mode = "wb")
-    }
-    x <- arq_path
+  if (is.null(dest_dir)) {
+    dest_dir <- tempfile()
   }
-  readRDS(x)
+  dir.create(dest_dir, recursive = TRUE, showWarnings = FALSE)
+
+  arq_path <- file.path(dest_dir, basename(x))
+
+  if (check_file(arq_path)) {
+    message("File already exists in '", dest_dir, "', reading it from disk.")
+  } else {
+    # Remove partial files so a failed download is not reused as cache
+    tryCatch(
+      download.file(x, destfile = arq_path, mode = "wb"),
+      error = function(e) {
+        unlink(arq_path)
+        stop(e)
+      }
+    )
+  }
+
+  readRDS(arq_path)
 
 }

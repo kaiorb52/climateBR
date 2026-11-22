@@ -11,10 +11,9 @@ download_firespots(years = 2025, dest_dir = NULL)
 Historical data are available from 1998 onwards. The default is
 `2025`.}
 
-\item{dest_dir}{Character. Directory where the extracted CSV files are
-saved (e.g. `"./data/raw/"`). It is created if it does not exist. If
-`NULL` (default), files are extracted to a temporary directory and
-discarded at the end of the R session.}
+\item{dest_dir}{Character. Directory where the files are saved
+(e.g. `"./data/raw/"`). It is created if it does not exist. If `NULL`
+(default), a temporary directory is used.}
 }
 \value{
 A data frame with one row per fire hotspot, combining all requested
@@ -27,18 +26,11 @@ Institute for Space Research (INPE) through the *Programa Queimadas*.
 The files include detections from all satellites monitored by INPE.
 }
 \details{
-For each year, a ZIP file is downloaded from INPE's open data server
-(<https://data.inpe.br/queimadas/portal/dados-abertos/>), extracted into
-`dest_dir` (or a temporary directory) and read with [data.table::fread()].
-The yearly tables are then stacked into a single data frame.
+Source: National Institute for Space Research (INPE), *Programa
+Queimadas*. More information:
+<https://data.inpe.br/queimadas/portal/dados-abertos/>.
 
-When `dest_dir` is set, years whose CSV
-(`focos_br_todos-sats_{year}.csv`) already exists in `dest_dir` are read
-from disk instead of being downloaded again, so an internet connection is
-only required for missing years. A message lists the years that are read
-from disk.
-
-Column names are kept as distributed by the source. The main columns are
+The main columns are
 the hotspot coordinates (`latitude`, `longitude`), the detection time
 (`data_pas`), the satellite (`satelite`), the location (`pais`, `estado`,
 `municipio`, `bioma`), and fire-related indicators such as
@@ -48,13 +40,12 @@ codes; to link hotspots to [municipality] or [mun_stations], use the
 coordinates (e.g. a spatial join with municipality boundaries) or the
 municipality and state names.
 
-Although records are available since 1998, the structure of the files
-has changed over time: newer years may include columns that do not exist
-in older ones, and column names or types may differ. When several years
-are requested, tables are combined with [dplyr::bind_rows()], so columns
-missing in a given year are filled with `NA`, and incompatible column
-types across years may raise an error. The columns described above refer
-to recent years; check the data before combining long periods.
+The structure of the files has changed over time, so older years may lack
+some columns (filled with `NA` when several years are combined).
+
+Years whose file already exists in `dest_dir` are read from disk instead
+of being downloaded again. If a file is corrupted (e.g. after an
+interrupted download), delete it and run the function again.
 }
 \examples{
 \dontrun{
@@ -65,7 +56,7 @@ firespots <- download_firespots(years = 2024)
 ## Download multiple years
 firespots <- download_firespots(years = 2022:2024)
 
-## Keep the CSV files locally
+## Keep the files locally
 firespots <- download_firespots(years = 2024, dest_dir = "./data/raw/")
 
 }
