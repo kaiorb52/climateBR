@@ -28,8 +28,8 @@
 #' It reflects the most recent INMET station network and is intended for
 #' analyses of recent observations. Because stations are added and removed
 #' over time, do not use it to match data from earlier years. For historical
-#' analyses, use `mun_stations_distance` or build a year-specific mapping
-#' with [nearest_stations()] and the station network of that year.
+#' analyses, build a year-specific mapping with [nearest_stations()] and the
+#' station network of that year.
 #'
 #' @source
 #' Distances were computed from municipality centroid coordinates and INMET

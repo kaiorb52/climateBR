@@ -12,6 +12,10 @@ This release expands climateBR beyond INMET: it adds three new data sources (APA
 
 -   `apac_stations` — a new dataset with metadata for the 1,306 monitoring stations listed by APAC in Pernambuco (conventional and automatic rain gauges, and meteorological, hydrological and agrometeorological stations), including type, status, operator, municipality (IBGE code) and coordinates.
 
+## Removed
+
+-   `mun_stations_distance` was removed. It was superseded by `mun_stations` in 0.2.0 and made up most of the package size. For historical analyses, build a year-specific mapping with `nearest_stations()`.
+
 ## Improvements
 
 -   `kriging_inmet()` gains a `range` argument that sets the initial range of the spherical variogram. By default it uses 500 km for both geographic and projected CRS. Before, the range was fixed at 500,000 map units, which was wrong for longitude/latitude data.
