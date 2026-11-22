@@ -1,10 +1,21 @@
 # climateBR 0.3.0
 
+This release expands climateBR beyond INMET: it adds three new data sources (APAC, MIDR and INPE), a new dataset of APAC monitoring stations, and improvements to `kriging_inmet()`. The package documetation were updated to reflect the broader scope.
+
 ## New functions
 
--   `download_disasters()` — downloads the consolidated database of the *Atlas Digital de Desastres no Brasil* (MIDR, with CEPED/UFSC): natural disaster records registered in S2iD between 1991 and 2025, linked to municipalities through the 7-digit IBGE code.
+-   `download_disasters()` — downloads the consolidated database of the *Atlas Digital de Desastres no Brasil* (MIDR, with CEPED/UFSC): natural disaster records registered in S2iD between 1991 and 2025, linked to municipalities through the 7-digit IBGE code. The data are served from a Zenodo mirror as an `.rds` file instead of the CSV on the MIDR portal.
 -   `download_firespots()` — downloads the annual fire hotspot records (*focos de queimada*) detected by satellite and published by INPE's *Programa Queimadas*, available from 1998 onwards.
--   `download_apac()` — downloads the historical monthly rainfall records of Pernambuco's Water and Climate Agency (APAC), by mesoregion, available from 1961 onwards.
+-   `download_apac()` — downloads the historical monthly rainfall records of Pernambuco's Water and Climate Agency (APAC), by mesoregion, available from 1961 onwards. The daily rainfall columns (`01` to `31`) and `Acumulado` are returned as numeric (mm), with APAC's decimal comma converted and `"-"` returned as `NA`. This function requires the suggested packages `chromote` and `rvest` and a local installation of Google Chrome or Chromium. It is based on a script from the [Nimbus Platform](https://github.com/ProjetoNimbuss/nimbus-platform) project.
+
+## Datasets
+
+-   `apac_stations` — a new dataset with metadata for the 1,306 monitoring stations listed by APAC in Pernambuco (conventional and automatic rain gauges, and meteorological, hydrological and agrometeorological stations), including type, status, operator, municipality (IBGE code) and coordinates.
+
+## Improvements
+
+-   `kriging_inmet()` gains a `range` argument that sets the initial range of the spherical variogram. By default it uses 500 km for both geographic and projected CRS. Before, the range was fixed at 500,000 map units, which was wrong for longitude/latitude data.
+-   `kriging_inmet()` now supports geographic CRS (e.g. EPSG:4326), and `mun_geo` is transformed automatically to the CRS of `stations_df` when the two differ.
 
 # climateBR 0.2.5
 

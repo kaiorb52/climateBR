@@ -166,3 +166,34 @@ map_chuva_pe <- ggplot() +
   )
 
 ggsave(plot = map_chuva_pe, filename = "man/figures/map_rain_pe.png", height = 5.2, width = 10, dpi = 300)
+
+###################
+###################
+# Natural disasters
+
+library(tidyverse)
+library(climateBR)
+
+natural_disasters <- download_disasters(dest_dir = "tests/")
+
+options(scipen = 999)
+natural_disasters_plot <- natural_disasters |> 
+  mutate(
+    total_afetados = (
+      DH_MORTOS + DH_FERIDOS + DH_DESABRIGADOS +DH_DESALOJADOS
+    ),
+    ano = stringi::stri_extract(Data_Evento, regex = "\\d{4}$") |> 
+      as.numeric()
+  ) |> 
+  filter(ano < 2026) |> 
+  group_by(ano) |> 
+  summarise(
+    total_afetados = sum(total_afetados)
+  ) |> 
+  ggplot(aes(x = ano, y = total_afetados)) +
+  geom_point() +
+  geom_line() +
+  labs(x = NULL, y = "People directly affected") +
+  theme_minimal()
+
+ggsave(plot = natural_disasters_plot, filename = "man/figures/natural_disasters.png", height = 5.2, width = 10, dpi = 300)
