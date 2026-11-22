@@ -32,5 +32,3 @@
   Brazilian Municipalities
 - [`rain_stations`](rain_stations.md) : INMET rainfall monitoring
   stations by year
-- [`mun_stations_distance`](mun_stations_distance.md) : Distance Between
-  Brazilian Municipal Centroids and INMET Rainfall Stations

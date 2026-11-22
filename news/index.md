@@ -38,6 +38,13 @@ documetation were updated to reflect the broader scope.
   stations), including type, status, operator, municipality (IBGE code)
   and coordinates.
 
+### Removed
+
+- `mun_stations_distance` was removed. It was superseded by
+  `mun_stations` in 0.2.0 and made up most of the package size. For
+  historical analyses, build a year-specific mapping with
+  [`nearest_stations()`](../reference/nearest_stations.md).
+
 ### Improvements
 
 - [`kriging_inmet()`](../reference/kriging_inmet.md) gains a `range`

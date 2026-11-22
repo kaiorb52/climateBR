@@ -55,6 +55,11 @@
 <code>apac_stations</code> — a new dataset with metadata for the 1,306 monitoring stations listed by APAC in Pernambuco (conventional and automatic rain gauges, and meteorological, hydrological and agrometeorological stations), including type, status, operator, municipality (IBGE code) and coordinates.</li>
 </ul></div>
 <div class="section level3">
+<h3 id="removed-0-3-0">Removed<a class="anchor" aria-label="anchor" href="#removed-0-3-0"></a></h3>
+<ul><li>
+<code>mun_stations_distance</code> was removed. It was superseded by <code>mun_stations</code> in 0.2.0 and made up most of the package size. For historical analyses, build a year-specific mapping with <code><a href="../reference/nearest_stations.html">nearest_stations()</a></code>.</li>
+</ul></div>
+<div class="section level3">
 <h3 id="improvements-0-3-0">Improvements<a class="anchor" aria-label="anchor" href="#improvements-0-3-0"></a></h3>
 <ul><li>
 <code><a href="../reference/kriging_inmet.html">kriging_inmet()</a></code> gains a <code>range</code> argument that sets the initial range of the spherical variogram. By default it uses 500 km for both geographic and projected CRS. Before, the range was fixed at 500,000 map units, which was wrong for longitude/latitude data.</li>
