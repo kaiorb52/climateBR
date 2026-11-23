@@ -65,7 +65,6 @@ head(mun_stations_pe)
 ## Municipality–station connections
 
 The top map colors each municipality by its nearest station. The bottom
-map draws a line from each municipality centroid (×) to its nearest
-station (◆).
+map draws a line from each municipality centroid to its nearest station.
 
-![](nearest_station_files/figure-html/unnamed-chunk-5-1.png)
+![](nearest_station_files/figure-html/unnamed-chunk-6-1.png)

@@ -29,18 +29,11 @@ flood event together with municipality geometries.
 
 data("floods_rs")
 data("mun_stations")
+```
 
-# Alternative to: geobr::read_municipality(year = 2024)
-tmp <- tempfile(fileext = ".rda")
-on.exit(unlink(tmp), add = TRUE)
+``` r
 
-download.file(
-  "https://github.com/kaiorb52/dados_municipais/raw/main/mun_24.rda",
-  destfile = tmp,
-  mode = "wb"
-)
-
-load(tmp)
+mun_24 <- geobr::read_municipality(year = 2024)
 ```
 
 The station observations are converted to an `sf` object and projected
@@ -54,14 +47,10 @@ rain_sf <- floods_rs |>
   st_transform(crs = 29193)
 
 mun_centroid <- mun_24 |>
-  select(code_muni, geom) |>
-  mutate(
-    ponto = st_point_on_surface(geom)
-  ) |>
-  st_drop_geometry()
+  select(code_muni) |>
+  st_point_on_surface()
 
 mun_grid_sf <- mun_centroid |>
-  st_as_sf() |>
   st_transform(crs = 29193)
 ```
 
@@ -86,6 +75,7 @@ are then attached to the municipality dataset.
 ``` r
 
 mun_pred <- mun_centroid |>
+  st_drop_geometry() |>
   select(code_muni) |>
   bind_cols(
     krig_result |>
@@ -165,7 +155,7 @@ p2 <- mun_24 |>
 The figure below compares rainfall estimates generated using ordinary
 kriging against values obtained from the nearest-station approach.
 
-![](kriging_files/figure-html/unnamed-chunk-6-1.png)
+![](kriging_files/figure-html/unnamed-chunk-7-1.png)
 
 Ordinary kriging generally produces smoother spatial surfaces and
 incorporates information from multiple nearby stations, whereas the
@@ -189,4 +179,4 @@ Each approach has advantages and limitations:
 The histograms below compare the distribution of municipality-level
 estimates from both approaches.
 
-![](kriging_files/figure-html/unnamed-chunk-7-1.png)
+![](kriging_files/figure-html/unnamed-chunk-8-1.png)
