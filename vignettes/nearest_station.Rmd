@@ -73,7 +73,7 @@ knitr::opts_chunk$set(eval = inherits(mun_24, "sf"))
 
 ```{r, echo=FALSE, warning = FALSE, message = FALSE}
 mun_24_pe <- mun_24 |>
-  select(code_muni, geom)
+  select(code_muni)
 
 mun_stations_pe2 <- mun_24_pe |>
   left_join(

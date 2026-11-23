@@ -67,14 +67,10 @@ rain_sf <- floods_rs |>
   st_transform(crs = 29193)
 
 mun_centroid <- mun_24 |>
-  select(code_muni, geom) |>
-  mutate(
-    ponto = st_point_on_surface(geom)
-  ) |>
-  st_drop_geometry()
+  select(code_muni) |>
+  st_point_on_surface()
 
 mun_grid_sf <- mun_centroid |>
-  st_as_sf() |>
   st_transform(crs = 29193)
 
 ```
@@ -97,6 +93,7 @@ are then attached to the municipality dataset.
 
 ```{r, warning = FALSE, message = FALSE}
 mun_pred <- mun_centroid |>
+  st_drop_geometry() |>
   select(code_muni) |>
   bind_cols(
     krig_result |>
